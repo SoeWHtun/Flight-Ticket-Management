@@ -1,29 +1,29 @@
 package com.example.dao;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.model.Customer;
+import com.example.util.FileUtil;
 
 public class CustomerDAO {
-
 	private static Customer[] customerDB = new Customer[1000];
 	private static int customerCount = 0;
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
-		addCustomer(new Customer("U Kan Hla", "09345455", "kanhla3454@gmail.comss"));
-		addCustomer(new Customer("Daw Mya Mya", "09451234", "myamya@gmail.com"));
-		addCustomer(new Customer("Ko Aung Min", "09234567", "aungmin@yahoo.com"));
-		addCustomer(new Customer("Ma Su Su", "09567890", "susu@gmail.com"));
-		addCustomer(new Customer("U Tin Tun", "09112233", "tintun@hotmail.com"));
-		addCustomer(new Customer("Daw Khin Khin", "09654321", "khinkhin@mail.com"));
-		addCustomer(new Customer("Ko Zaw Zaw", "09778990", "zawzaw@gmail.com"));
-		addCustomer(new Customer("Ma Moe Moe", "09812345", "moemoe@gmail.com"));
-		addCustomer(new Customer("U Hla Hla", "09336677", "hlahla@gmail.com"));
-		addCustomer(new Customer("Daw Yin Yin", "09447788", "yinyin@mail.com"));
+		FileUtil.csvCreater("customer.csv");
+	}
+
+	public static int getId(){
+		List<Customer> customerList = getAll();
+		customerList.sort((c1, c2)-> Integer.compare(c1.getCustomerId(), c2.getCustomerId()));
+		return customerList.getLast().getCustomerId() + 1;
 	}
 
 	public static int getCustomerCount() {
@@ -32,23 +32,37 @@ public class CustomerDAO {
 
 	public static void addCustomer(Customer customer) {
 		customerCount++;
-		customerDB[customerCount - 1] = customer;
-
+		customer.setCustomerId(getId());
+		FileUtil.csvWriter("customer.csv", customer.toArray());
 	}
 
 	public static Customer findById(int id) {
-		for (int i = 0; i < customerCount; i++) {
-			if (customerDB[i].getCustomerId() == id) {
-				return customerDB[i];
+		for (Customer customer : getAll()) {
+			if (customer.getCustomerId() == id) {
+				return customer;
 			}
 		}
-
 		return null;
 	}
 
+	public static List<Customer> getAll(){
+		List<String[]> customersData = FileUtil.csvReader("customer.csv");
+		List<Customer> customerList = toCustomers(customersData);
+		return customerList;
+	}
+
+	private static List<Customer> toCustomers(List<String[]> customersData) {
+		List<Customer> customerList = new ArrayList<>();
+		for(String[] customerRow : customersData) {
+			Customer customer = Customer.toObj(customerRow);
+			customerList.add(customer);
+		}
+		return customerList;
+	}
+
 	public static void displayCustomer() {
-		for (int i = 0; i < customerCount; i++) {
-			System.out.println(customerDB[i]);
+		for (Customer customer : getAll()) {
+			System.out.println(customer);
 		}
 	}
 

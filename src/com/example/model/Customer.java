@@ -15,6 +15,21 @@ public class Customer {
     	this.email=email;
     }
 
+	public Customer(int id, String name,String phone,String email) {
+		this.customerId= id;
+		this.name=name;
+		this.phone=phone;
+		this.email=email;
+	}
+
+	public static Customer toObj(String[] customerRow) {
+		int customerId = Integer.parseInt(customerRow[0]);
+		String name = customerRow[1];
+		String phone = customerRow[2];
+		String email = customerRow[3];
+		return new Customer(customerId, name, phone, email);
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
@@ -45,6 +60,10 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String[] toArray(){
+		return new String[]{this.customerId+"", this.name, this.phone, this.email};
 	}
 	
 	@Override
