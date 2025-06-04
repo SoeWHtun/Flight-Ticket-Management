@@ -20,8 +20,7 @@ public class SeatController {
 			System.out.println("1. View all seats in all flight");
 			System.out.println("2. View all seats by flight ID");
 			System.out.println("3. Exit");
-			System.out.print("Enter your choice: ");
-			choice = Integer.parseInt(bufferedReader.readLine());
+			choice = FlightTicketManagement.getChoice();
 
 			switch (choice) {
 			case 1 -> viewAll();
@@ -36,9 +35,9 @@ public class SeatController {
 
 	private void viewByFlight() throws IOException {
 		FlightDAO.displayFlight();
-		System.out.print("Enter flight ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
-		SeatDAO.displayByFlightId(id);
+		int id = FlightDAO.getFlightID();
+		int cId = FlightDAO.checkFlightID(id);
+		SeatDAO.displayByFlightId(cId);
 	}
 
 	private void viewAll() {

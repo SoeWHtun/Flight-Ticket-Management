@@ -25,8 +25,7 @@ public class CustomerController {
 			System.out.println("4. View All Customer");
 			System.out.println("5. Delete Customer");
 			System.out.println("6. Exit");
-			System.out.print("Enter your choice: ");
-			choice = Integer.parseInt(bufferedReader.readLine());
+			choice = FlightTicketManagement.getChoice();
 
 			switch (choice) {
 			case 1 -> create();
@@ -43,9 +42,9 @@ public class CustomerController {
 	}
 
 	private void delete() throws IOException {
-		System.out.print("Enter customer ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
-		CustomerDAO.delete(id);
+		int customerId = CustomerDAO.getCustomerID();
+		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
+		CustomerDAO.delete(cCustomerId);
 		CustomerDAO.displayCustomer();
 	}
 
@@ -54,15 +53,15 @@ public class CustomerController {
 	}
 
 	private void findById() throws IOException {
-		System.out.print("Enter customer ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
-		Customer foundCustomer = CustomerDAO.findById(id);
+		int customerId = CustomerDAO.getCustomerID();
+		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
+		Customer foundCustomer = CustomerDAO.findById(cCustomerId);
 		System.out.println(foundCustomer);
 	}
 
 	private void edit() throws IOException {
-		System.out.print("Enter customer ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
+		int customerId = CustomerDAO.getCustomerID();
+		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
 		System.out.print("Enter customer name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter customer phone: ");
@@ -70,9 +69,9 @@ public class CustomerController {
 		System.out.print("Enter customer email: ");
 		String email = bufferedReader.readLine();
 		Customer updateCustomer = new Customer(name, phone, email);
-		CustomerService.update(id, updateCustomer);
+		CustomerService.update(cCustomerId, updateCustomer);
 		System.out.println("Customer Details Updated\n");
-		Customer foundCustomer = CustomerDAO.findById(id);
+		Customer foundCustomer = CustomerDAO.findById(cCustomerId);
 		System.out.println(foundCustomer);
 	}
 

@@ -26,8 +26,7 @@ public class FlightTicketManagement {
 			System.out.println("5. Seat Management");
 
 			System.out.println("6. Exit");
-			System.out.print("Enter your choice: ");
-			choice = Integer.parseInt(bufferedReader.readLine());
+			choice = getChoice();
 
 			switch (choice) {
 			case 1 -> customerController.call();
@@ -42,6 +41,21 @@ public class FlightTicketManagement {
 		} while (choice != 6);
 		System.out.println();
 
+	}
+
+	public static int getChoice() {
+		int choice;
+		try {
+			System.out.print("Enter your choice: ");
+			choice = Integer.parseInt(bufferedReader.readLine());
+		} catch (IOException ex) {
+			System.out.println("Please enter valid value");
+			return getChoice();
+		} catch (NumberFormatException ex) {
+			System.out.println("Please enter valid choice");
+			return getChoice();
+		}
+		return choice;
 	}
 
 }

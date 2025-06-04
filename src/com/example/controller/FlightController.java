@@ -29,8 +29,7 @@ public class FlightController {
 			System.out.println("5. View all flight with available seats");
 			System.out.println("5. Delete flight");
 			System.out.println("6. Exit");
-			System.out.print("Enter your choice: ");
-			choice = Integer.parseInt(bufferedReader.readLine());
+			choice = FlightTicketManagement.getChoice();
 
 			switch (choice) {
 			case 1 -> createFlight();
@@ -52,9 +51,9 @@ public class FlightController {
 	}
 
 	private void deleteFlight() throws IOException {
-		System.out.print("Enter flight ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
-		FlightDAO.deleteFlight(id);
+		int id = FlightDAO.getFlightID();
+		int cId = FlightDAO.checkFlightID(id);
+		FlightDAO.deleteFlight(cId);
 		FlightDAO.displayFlight();
 	}
 
@@ -64,23 +63,25 @@ public class FlightController {
 	}
 
 	private void findById() throws IOException {
-		System.out.print("Enter schedule ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
-		Flight foundFlight = FlightDAO.findById(id);
+
+		int id = FlightDAO.getFlightID();
+		int cId = FlightDAO.checkFlightID(id);
+		Flight foundFlight = FlightDAO.findById(cId);
 		System.out.println(foundFlight);
 	}
 
 	private void editFlight() throws IOException {
-		System.out.print("Enter flight ID: ");
-		int id = Integer.parseInt(bufferedReader.readLine());
+
+		int id = FlightDAO.getFlightID();
+		int cId = FlightDAO.checkFlightID(id);
 		System.out.print("Enter flight name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter flight number: ");
 		String number = bufferedReader.readLine();
 		Flight updateFlight = new Flight(name, number);
-		FlightService.updateFlight(id, updateFlight);
+		FlightService.updateFlight(cId, updateFlight);
 		System.out.println("Flight Details Updated\n");
-		Flight foundFlight = FlightDAO.findById(id);
+		Flight foundFlight = FlightDAO.findById(cId);
 		System.out.println(foundFlight);
 
 	}

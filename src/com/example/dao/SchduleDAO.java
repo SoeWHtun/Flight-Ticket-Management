@@ -1,5 +1,8 @@
 package com.example.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
 import com.example.model.Flight;
@@ -8,6 +11,8 @@ import com.example.model.Schedule;
 public class SchduleDAO {
 	private static Schedule[] scheduleDB = new Schedule[1000];
 	private static int scheduleCount = 0;
+	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
 
@@ -103,6 +108,33 @@ public class SchduleDAO {
 
 			}
 		}
+	}
+
+	public static int getScheduleID() {
+		int scheduleID;
+		try {
+			System.out.print("Enter schedule ID: ");
+			scheduleID = Integer.parseInt(bufferedReader.readLine());
+		} catch (IOException ex) {
+			System.out.println("Please enter valid value");
+			return getScheduleID();
+		} catch (NumberFormatException ex) {
+			System.out.println("Please enter valid ID");
+			return getScheduleID();
+		}
+		return scheduleID;
+	}
+
+	public static int checkScheduleID(int id) {
+		int checkedId = 0;
+		try {
+			Schedule checkSchedule = findById(id);
+			checkedId = checkSchedule.getScheduleId();
+		} catch (NullPointerException ex) {
+			System.out.print("\nNo Schedule found!Please enter valid ID\n");
+			return checkScheduleID(getScheduleID());
+		}
+		return checkedId;
 	}
 
 }
