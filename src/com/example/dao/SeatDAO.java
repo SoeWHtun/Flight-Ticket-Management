@@ -1,11 +1,18 @@
 package com.example.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import com.example.model.Flight;
+
 import com.example.model.Seat;
 
 public class SeatDAO {
 	private static Seat[] seatDB = new Seat[2000];
 	private static int seatCount = 0;
+	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
 		for (Flight flight : FlightDAO.getAllFlight()) {
@@ -53,4 +60,32 @@ public class SeatDAO {
 			System.out.println(seatDB[i]);
 		}
 	}
+
+	public static int getSeatID() {
+		int seatID;
+		try {
+			System.out.print("Enter seat ID: ");
+			seatID = Integer.parseInt(bufferedReader.readLine());
+		} catch (IOException ex) {
+			System.out.println("Please enter valid value");
+			return getSeatID();
+		} catch (NumberFormatException ex) {
+			System.out.println("Please enter valid ID");
+			return getSeatID();
+		}
+		return seatID;
+	}
+
+	public static int checkSeatID(int id) {
+		int checkedId = 0;
+		try {
+			Seat checkSeat = findById(id);
+			checkedId = checkSeat.getSeatId();
+		} catch (NullPointerException ex) {
+			System.out.print("\nNo Seat found!Please enter valid ID\n");
+			return checkSeatID(getSeatID());
+		}
+		return checkedId;
+	}
+
 }

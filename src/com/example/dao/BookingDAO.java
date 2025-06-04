@@ -1,10 +1,15 @@
 package com.example.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import com.example.model.Booking;
 
 public class BookingDAO {
 	private static Booking[] bookingDB = new Booking[1000];
 	private static int bookingCount = 0;
+	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	public static int getBookingCount() {
 		return bookingCount;
@@ -72,4 +77,33 @@ public class BookingDAO {
 		return bookingDB;
 	}
 
+	public static int getBookingID() {
+		int bookingID;
+		try {
+			System.out.print("Enter your booking ID: ");
+			bookingID = Integer.parseInt(bufferedReader.readLine());
+		} catch (IOException ex) {
+			System.out.println("Please enter valid value");
+			return getBookingID();
+		} catch (NumberFormatException ex) {
+			System.out.println("Please enter valid ID");
+			return getBookingID();
+		} catch (NullPointerException ex) {
+			System.out.println("Please enter valid ID");
+			return getBookingID();
+		}
+		return bookingID;
+	}
+
+	public static int checkBookingID(int id) {
+		int checkedId = 0;
+		try {
+			Booking checkBooking = findById(id);
+			checkedId = checkBooking.getBookingId();
+		} catch (NullPointerException ex) {
+			System.out.print("\nNo Booking found!Please enter valid ID\n");
+			return checkBookingID(getBookingID());
+		}
+		return checkedId;
+	}
 }

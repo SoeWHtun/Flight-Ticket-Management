@@ -1,11 +1,17 @@
 package com.example.dao;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import com.example.model.Customer;
 
 public class CustomerDAO {
 
 	private static Customer[] customerDB = new Customer[1000];
 	private static int customerCount = 0;
+	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
 		addCustomer(new Customer("U Kan Hla", "09345455", "kanhla3454@gmail.comss"));
@@ -59,6 +65,33 @@ public class CustomerDAO {
 
 			}
 		}
+	}
+
+	public static int getCustomerID() {
+		int customerID;
+		try {
+			System.out.print("Enter your customer ID: ");
+			customerID = Integer.parseInt(bufferedReader.readLine());
+		} catch (IOException ex) {
+			System.out.println("Please enter valid value");
+			return getCustomerID();
+		} catch (NumberFormatException ex) {
+			System.out.println("Please enter valid ID");
+			return getCustomerID();
+		}
+		return customerID;
+	}
+
+	public static int checkCustomerID(int id) {
+		int checkedId = 0;
+		try {
+			Customer checkCustomer = findById(id);
+			checkedId = checkCustomer.getCustomerId();
+		} catch (NullPointerException ex) {
+			System.out.print("\nNo User found!Please enter valid ID\n");
+			return checkCustomerID(getCustomerID());
+		}
+		return checkedId;
 	}
 
 }
