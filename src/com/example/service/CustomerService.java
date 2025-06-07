@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dao.CustomerDAO;
 import com.example.model.Customer;
+import com.example.util.FileUtil;
 
 public class CustomerService {
 
@@ -15,6 +16,7 @@ public class CustomerService {
 		updateCustomer.setName(customer.getName());
 		updateCustomer.setEmail(customer.getEmail());
 		updateCustomer.setPhone(customer.getPhone());
+//		FileUtil.csvUpdater("customer.csv",updateCustomer.toArray());
 	}
 
 }

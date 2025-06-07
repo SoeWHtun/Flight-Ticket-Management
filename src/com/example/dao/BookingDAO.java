@@ -3,28 +3,61 @@ package com.example.dao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.model.Booking;
+import com.example.model.Flight;
+import com.example.util.FileUtil;
 
 public class BookingDAO {
 	private static Booking[] bookingDB = new Booking[1000];
 	private static int bookingCount = 0;
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+	static {
+		String[] header = {"Id", "customerId", "flightId", "scheduleId","seatId"};
+		FileUtil.csvCreater("booking.csv",header);
+	}
 	public static int getBookingCount() {
 		return bookingCount;
 	}
 
+	public static int getBookingCSVId(){
+		List<Booking> bookingList = getAllBooking();
+		if(bookingList.size()>0){
+			bookingList.sort((c1, c2)-> Integer.compare(c1.getBookingId(), c2.getBookingId()));
+			return bookingList.getLast().getBookingId() + 1;}
+		else{
+			return 1;
+		}
+
+	}
+	public static List<Booking> getAllBooking(){
+		List<String[]> bookingData = FileUtil.csvReader("booking.csv");
+		List<Booking> bookingList = toBookings(bookingData);
+		return bookingList;
+	}
+	private static List<Booking> toBookings(List<String[]> bookingsData) {
+		List<Booking> bookingList = new ArrayList<>();
+		for(String[] bookingRow : bookingsData) {
+			Booking booking = Booking.toObj(bookingRow);
+			bookingList.add(booking);
+		}
+		return bookingList;
+	}
+
 	public static void addBooking(Booking booking) {
 		bookingCount++;
-		bookingDB[bookingCount - 1] = booking;
+		booking.setBookingId(getBookingCSVId());
+		FileUtil.csvWriter("booking.csv", booking.toArray());
 
 	}
 
 	public static Booking findById(int id) {
-		for (int i = 0; i < bookingCount; i++) {
-			if (bookingDB[i].getBookingId() == id) {
-				return bookingDB[i];
+		for (Booking booking : getAllBooking()) {
+			if (booking.getBookingId() == id) {
+				return booking;
 			}
 		}
 
@@ -32,9 +65,9 @@ public class BookingDAO {
 	}
 
 	public static Boolean checkAvailableById(int id) {
-		for (int j = 0; j < BookingDAO.getBookingCount(); j++) {
+		for (Booking booking : getAllBooking()) {
 
-			if (bookingDB[j].getSeat().getSeatId() == id && bookingDB[j].getIsAvailable() == false) {
+			if (booking.getSeat().getSeatId() == id && booking.getIsAvailable() == false) {
 				System.out.println("The seat is already booked.Please book another seat");
 				return false;
 			}
@@ -44,16 +77,16 @@ public class BookingDAO {
 	}
 
 	public static void displayBooking() {
-		for (int i = 0; i < bookingCount; i++) {
-			System.out.println(bookingDB[i]);
+		for (Booking booking : getAllBooking()) {
+			System.out.println(booking);
 
 		}
 	}
 
 	public static void displayBookingbyCustomer(int id) {
-		for (int i = 0; i < bookingCount; i++) {
-			if (bookingDB[i].getCustomer().getCustomerId() == id) {
-				System.out.println(bookingDB[i]);
+		for (Booking booking : getAllBooking()) {
+			if (booking.getCustomer().getCustomerId() == id) {
+				System.out.println(booking);
 			}
 		}
 	}

@@ -27,8 +27,8 @@ public class FlightController {
 			System.out.println("3. Find flight by Id");
 			System.out.println("4. View all flight");
 			System.out.println("5. View all flight with available seats");
-			System.out.println("5. Delete flight");
-			System.out.println("6. Exit");
+			System.out.println("6. Delete flight");
+			System.out.println("7. Exit");
 			choice = FlightTicketManagement.getChoice();
 
 			switch (choice) {

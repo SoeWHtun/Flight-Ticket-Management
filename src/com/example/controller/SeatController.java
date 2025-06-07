@@ -29,7 +29,7 @@ public class SeatController {
 			default -> System.out.println("Invalid choice! Please select a valid option.");
 			}
 
-		} while (choice != 2);
+		} while (choice != 3);
 		System.out.println();
 	}
 

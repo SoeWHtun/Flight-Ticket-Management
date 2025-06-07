@@ -6,7 +6,7 @@ import com.example.model.Seat;
 
 public class SeatService {
 	public static void createSeat(Flight flight) {
-		for (int j = 1; j <= 100; j++) {
+		for (int j = 1; j <= 50; j++) {
 			SeatDAO.addSeat(new Seat(flight, "SEAT" + j));
 		}
 	}

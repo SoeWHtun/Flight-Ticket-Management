@@ -3,8 +3,14 @@ package com.example.dao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.example.model.Booking;
+import com.example.model.Customer;
 import com.example.model.Flight;
+import com.example.model.Seat;
+import com.example.util.FileUtil;
 
 public class FlightDAO {
 	private static Flight[] flightDB = new Flight[1000];
@@ -12,17 +18,32 @@ public class FlightDAO {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 	static {
-		addFlight(new Flight("MAI", "FM0034"));
-		addFlight(new Flight("Air Asia", "M0073"));
-		addFlight(new Flight("Thai Air", "TR8873"));
-		addFlight(new Flight("Myanmar Airways", "MM001"));
-		addFlight(new Flight("Singapore Airlines", "SQ223"));
-		addFlight(new Flight("Emirates", "EK393"));
-		addFlight(new Flight("Qatar Airways", "QR845"));
-		addFlight(new Flight("Lufthansa", "LH789"));
-		addFlight(new Flight("ANA", "NH867"));
-		addFlight(new Flight("Vietnam Airlines", "VN123"));
+		String[] header = {"FlightId","FlightName","FlightNumber"};
+		FileUtil.csvCreater("flight.csv",header);
 
+	}
+	public static int getFlightCSVId(){
+		List<Flight> flightList = getAllFlight();
+		if(flightList.size()>0){
+		flightList.sort((c1, c2)-> Integer.compare(c1.getFlightId(), c2.getFlightId()));
+		return flightList.getLast().getFlightId() + 1;}
+		else{
+			return 1;
+		}
+
+	}
+	public static List<Flight> getAllFlight(){
+		List<String[]> flightData = FileUtil.csvReader("flight.csv");
+		List<Flight> flightList = toFlights(flightData);
+		return flightList;
+	}
+	private static List<Flight> toFlights(List<String[]> flightsData) {
+		List<Flight> flightList = new ArrayList<>();
+		for(String[] flightRow : flightsData) {
+			Flight flight = Flight.toObj(flightRow);
+			flightList.add(flight);
+		}
+		return flightList;
 	}
 
 	public static int getFlightCount() {
@@ -31,31 +52,26 @@ public class FlightDAO {
 
 	public static void addFlight(Flight flight) {
 		flightCount++;
-		flightDB[flightCount - 1] = flight;
+		flight.setFlightId(getFlightCSVId());
+		FileUtil.csvWriter("flight.csv",flight.toArray());
 
 	}
 
 	public static Flight findById(int id) {
-		for (int i = 0; i < flightCount; i++) {
-			if (flightDB[i].getFlightId() == id) {
-				return flightDB[i];
+		for (Flight flight : getAllFlight()) {
+			if (flight.getFlightId() == id) {
+				return flight;
 			}
 		}
 
 		return null;
 	}
 
-	public static Flight[] getAllFlight() {
-		Flight[] flights = new Flight[flightCount];
-		for (int i = 0; i < flightCount; i++) {
-			flights[i] = flightDB[i];
-		}
-		return flights;
-	}
+
 
 	public static void displayFlight() {
-		for (int i = 0; i < flightCount; i++) {
-			System.out.println(flightDB[i]);
+		for (Flight flight : getAllFlight()) {
+			System.out.println(flight);
 
 		}
 	}
@@ -77,15 +93,15 @@ public class FlightDAO {
 
 	public static void displayFlightwithSeat() {
 		boolean found = false;
-		for (int i = 0; i < flightCount; i++) {
-			Flight flight = flightDB[i];
+		for (Flight flights : getAllFlight()) {
+			Flight flight = flights;
 			boolean hasAvailableSeat = false;
-			for (int j = 0; j < SeatDAO.getSeatCount(); j++) {
-				if (SeatDAO.getSeatDB()[j].getFlight().getFlightId() == flight.getFlightId()) {
+			for (Seat seat : SeatDAO.getAllSeat()) {
+				if (seat.getFlight().getFlightId() == flight.getFlightId()) {
 					boolean isBooked = false;
-					for (int k = 0; k < BookingDAO.getBookingCount(); k++) {
-						if (BookingDAO.getBookingDB()[k].getSeat().getSeatId() == SeatDAO.getSeatDB()[j].getSeatId()
-								&& BookingDAO.getBookingDB()[k].getIsAvailable() == false) {
+					for (Booking booking : BookingDAO.getAllBooking()) {
+						if (booking.getSeat().getSeatId() == seat.getSeatId()
+								&& booking.getIsAvailable() == false) {
 							isBooked = true;
 							break;
 						}

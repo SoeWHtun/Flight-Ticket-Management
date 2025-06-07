@@ -2,6 +2,7 @@ package com.example.service;
 
 import com.example.dao.FlightDAO;
 import com.example.model.Flight;
+import com.example.util.FileUtil;
 
 public class FlightService {
 
@@ -13,6 +14,7 @@ public class FlightService {
 		Flight updateFlight = FlightDAO.findById(id);
 		updateFlight.setFlightName(flight.getFlightName());
 		updateFlight.setFlightNumber(flight.getFlightNumber());
+//		FileUtil.csvUpdater("flight.csv",updateFlight.toArray());
 	}
 
 }

@@ -3,10 +3,13 @@ package com.example.dao;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.model.Flight;
 
 import com.example.model.Seat;
+import com.example.util.FileUtil;
 
 public class SeatDAO {
 	private static Seat[] seatDB = new Seat[2000];
@@ -15,11 +18,31 @@ public class SeatDAO {
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
-		for (Flight flight : FlightDAO.getAllFlight()) {
-			for (int j = 1; j <= 100; j++) {
-				addSeat(new Seat(flight, "SEAT" + j));
-			}
+		String[] header = {"seatId","flightId","seatNumber"};
+		FileUtil.csvCreater("seat.csv",header);
+	}
+	public static int getSeatCSVId(){
+		List<Seat> seatList = getAllSeat();
+		if(seatList.size()>0){
+			seatList.sort((c1, c2)-> Integer.compare(c1.getSeatId(), c2.getSeatId()));
+			return seatList.getLast().getSeatId() + 1;}
+		else{
+			return 1;
 		}
+
+	}
+	public static List<Seat> getAllSeat(){
+		List<String[]> seatData = FileUtil.csvReader("seat.csv");
+		List<Seat> seatList = toSeats(seatData);
+		return seatList;
+	}
+	private static List<Seat> toSeats(List<String[]> seatsData) {
+		List<Seat> seatList = new ArrayList<>();
+		for(String[] seatRow : seatsData) {
+			Seat seat = Seat.toObj(seatRow);
+			seatList.add(seat);
+		}
+		return seatList;
 	}
 
 	public static Seat[] getSeatDB() {
@@ -32,14 +55,15 @@ public class SeatDAO {
 
 	public static void addSeat(Seat seat) {
 		seatCount++;
-		seatDB[seatCount - 1] = seat;
+		seat.setSeatId(getSeatCSVId());
+		FileUtil.csvWriter("seat.csv",seat.toArray());
 
 	}
 
 	public static Seat findById(int id) {
-		for (int i = 0; i < seatCount; i++) {
-			if (seatDB[i].getSeatId() == id) {
-				return seatDB[i];
+		for (Seat seat : getAllSeat()) {
+			if (seat.getSeatId() == id) {
+				return seat;
 			}
 		}
 
@@ -47,17 +71,17 @@ public class SeatDAO {
 	}
 
 	public static void displayByFlightId(int id) {
-		for (int i = 0; i < seatCount; i++) {
-			if (seatDB[i].getFlight().getFlightId() == id) {
-				System.out.println(seatDB[i]);
+		for (Seat seat : getAllSeat()) {
+			if (seat.getFlight().getFlightId() == id) {
+				System.out.println(seat);
 			}
 		}
 
 	}
 
 	public static void displayAllSeat() {
-		for (int i = 0; i < seatCount; i++) {
-			System.out.println(seatDB[i]);
+		for (Seat seat : getAllSeat()) {
+			System.out.println(seat);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package com.example.model;
 
+import com.example.dao.FlightDAO;
 import com.example.dao.SeatDAO;
 
 public class Seat {
@@ -11,6 +12,18 @@ public class Seat {
 		this.seatId = SeatDAO.getSeatCount() + 1;
 		this.flight = flight;
 		this.seatNumber = seatNumber;
+	}
+	public Seat(int seatId,Flight flight, String seatNumber) {
+		this.seatId = seatId;
+		this.flight = flight;
+		this.seatNumber = seatNumber;
+	}
+	public static Seat toObj(String[] seatRow){
+		int seatId = Integer.parseInt(seatRow[0]);
+		int flightId = Integer.parseInt(seatRow[1]);
+		String seatNumber = seatRow[2];
+		Flight nflight = FlightDAO.findById(flightId);
+		return new Seat(seatId,nflight,seatNumber);
 	}
 
 	public int getSeatId() {
@@ -36,7 +49,13 @@ public class Seat {
 	public void setFlight(Flight flight) {
 		this.flight = flight;
 	}
-
+    public String[] toArray(){
+		return new String[]{
+			this.seatId+"",
+			this.flight.getFlightId()+"",
+				this.seatNumber
+		};
+	}
 	@Override
 	public String toString() {
 		String str = "Seat Id: " + getSeatId() + "\nSeat number: " + getSeatNumber() + "\nFlight Id: "

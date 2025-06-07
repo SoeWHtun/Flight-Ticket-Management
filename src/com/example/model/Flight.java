@@ -12,6 +12,17 @@ public class Flight {
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}
+	public Flight(int flightId,String flightName, String flightNumber) {
+		this.flightId = flightId;
+		this.flightName = flightName;
+		this.flightNumber = flightNumber;
+	}
+	public static  Flight toObj(String[] flightRow){
+		int flightId = Integer.parseInt(flightRow[0]);
+		String flightName = flightRow[1];
+		String flightNumber = flightRow[2];
+		return new Flight(flightId,flightName,flightNumber);
+	}
 
 	public int getFlightId() {
 		return flightId;
@@ -36,6 +47,8 @@ public class Flight {
 	public void setFlightNumber(String flightNumber) {
 		this.flightNumber = flightNumber;
 	}
+
+	public String[] toArray(){return new String[]{this.flightId+"",this.flightName,this.flightNumber};}
 
 	@Override
 	public String toString() {

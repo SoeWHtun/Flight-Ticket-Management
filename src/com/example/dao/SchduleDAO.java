@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.example.model.Booking;
 import com.example.model.Flight;
 import com.example.model.Schedule;
+import com.example.util.FileUtil;
 
 public class SchduleDAO {
 	private static Schedule[] scheduleDB = new Schedule[1000];
@@ -16,61 +20,47 @@ public class SchduleDAO {
 
 	static {
 
-		Flight f1 = FlightDAO.findById(1);
-		addSchedule(new Schedule("MDY to BKK Route", f1, LocalDateTime.of(2025, 7, 11, 12, 30),
-				LocalDateTime.of(2025, 7, 11, 13, 30), "MDY Myanmar", "BKK Thailand"));
-
-		Flight f2 = FlightDAO.findById(2);
-		addSchedule(new Schedule("BKK to YGN Route", f2, LocalDateTime.of(2025, 6, 2, 8, 30),
-				LocalDateTime.of(2025, 6, 2, 9, 30), "BKK Thailand", "Yangon Myanmar"));
-
-		Flight f3 = FlightDAO.findById(3);
-		addSchedule(new Schedule("YGN to SIN Route", f3, LocalDateTime.of(2025, 6, 5, 10, 0),
-				LocalDateTime.of(2025, 6, 5, 13, 0), "Yangon Myanmar", "Singapore"));
-
-		Flight f4 = FlightDAO.findById(4);
-		addSchedule(new Schedule("SIN to TPE Route", f4, LocalDateTime.of(2025, 6, 6, 9, 0),
-				LocalDateTime.of(2025, 6, 6, 14, 0), "Singapore", "Taipei Taiwan"));
-
-		Flight f5 = FlightDAO.findById(5);
-		addSchedule(new Schedule("TPE to MDY Route", f5, LocalDateTime.of(2025, 6, 7, 13, 30),
-				LocalDateTime.of(2025, 6, 7, 17, 30), "Taipei Taiwan", "MDY Myanmar"));
-
-		Flight f6 = FlightDAO.findById(6);
-		addSchedule(new Schedule("MDY to NPT Route", f6, LocalDateTime.of(2025, 6, 8, 7, 0),
-				LocalDateTime.of(2025, 6, 8, 8, 0), "MDY Myanmar", "NPT Myanmar"));
-
-		Flight f7 = FlightDAO.findById(7);
-		addSchedule(new Schedule("NPT to BKK Route", f7, LocalDateTime.of(2025, 6, 9, 11, 0),
-				LocalDateTime.of(2025, 6, 9, 12, 0), "NPT Myanmar", "BKK Thailand"));
-
-		Flight f8 = FlightDAO.findById(8);
-		addSchedule(new Schedule("BKK to TPE Route", f8, LocalDateTime.of(2025, 6, 10, 14, 0),
-				LocalDateTime.of(2025, 6, 10, 18, 0), "BKK Thailand", "Taipei Taiwan"));
-
-		Flight f9 = FlightDAO.findById(9);
-		addSchedule(new Schedule("TPE to YGN Route", f9, LocalDateTime.of(2025, 6, 11, 6, 30),
-				LocalDateTime.of(2025, 6, 11, 10, 0), "Taipei Taiwan", "Yangon Myanmar"));
-
-		Flight f10 = FlightDAO.findById(10);
-		addSchedule(new Schedule("YGN to MDY Route", f10, LocalDateTime.of(2025, 6, 12, 16, 0),
-				LocalDateTime.of(2025, 6, 12, 17, 30), "Yangon Myanmar", "MDY Myanmar"));
-	}
+		String[] header = {"scheduleId","scheduleTitle","flightId","depatureDay","depatureMonth","depatureYear","depatureHour","depatureMinute","arrivalDay","arrivalMonth","arrivalYear","arrivalHour","arrivalMinute","depatureCity","arrivalCity"};
+		FileUtil.csvCreater("schedule.csv",header);}
 
 	public static int getScheduleCount() {
 		return scheduleCount;
 	}
+	public static int getScheduleCSVId(){
+		List<Schedule> scheduleList = getAllSchedule();
+		if(scheduleList.size()>0){
+			scheduleList.sort((c1, c2)-> Integer.compare(c1.getScheduleId(), c2.getScheduleId()));
+			return scheduleList.getLast().getScheduleId() + 1;}
+		else{
+			return 1;
+		}
+
+	}
+	public static List<Schedule> getAllSchedule(){
+		List<String[]> scheduleData = FileUtil.csvReader("schedule.csv");
+		List<Schedule> scheduleList = toSchedules(scheduleData);
+		return scheduleList;
+	}
+	private static List<Schedule> toSchedules(List<String[]> schedulesData) {
+		List<Schedule> scheduleList = new ArrayList<>();
+		for(String[] scheduleRow : schedulesData) {
+			Schedule schedule = Schedule.toObj(scheduleRow);
+			scheduleList.add(schedule);
+		}
+		return scheduleList;
+	}
 
 	public static void addSchedule(Schedule schedule) {
 		scheduleCount++;
-		scheduleDB[scheduleCount - 1] = schedule;
+		schedule.setScheduleId(getScheduleCSVId());
+		FileUtil.csvWriter("schedule.csv",schedule.toArray());
 
 	}
 
 	public static Schedule findById(int id) {
-		for (int i = 0; i < scheduleCount; i++) {
-			if (scheduleDB[i].getScheduleId() == id) {
-				return scheduleDB[i];
+		for (Schedule schedule : getAllSchedule()) {
+			if (schedule.getScheduleId() == id) {
+				return schedule;
 			}
 		}
 
@@ -78,10 +68,10 @@ public class SchduleDAO {
 	}
 
 	public static Schedule findByRoute(String dept, String arrival) {
-		for (int i = 0; i < scheduleCount; i++) {
-			if (scheduleDB[i].getDepatureCity().equalsIgnoreCase(dept)
-					&& scheduleDB[i].getArrivalCity().equalsIgnoreCase(arrival)) {
-				return scheduleDB[i];
+		for (Schedule schedule : getAllSchedule()) {
+			if (schedule.getDepatureCity().equalsIgnoreCase(dept)
+					&& schedule.getArrivalCity().equalsIgnoreCase(arrival)) {
+				return schedule;
 			}
 		}
 
@@ -89,8 +79,8 @@ public class SchduleDAO {
 	}
 
 	public static void displaySchedule() {
-		for (int i = 0; i < scheduleCount; i++) {
-			System.out.println(scheduleDB[i]);
+		for (Schedule schedule : getAllSchedule()) {
+			System.out.println(schedule);
 
 		}
 	}

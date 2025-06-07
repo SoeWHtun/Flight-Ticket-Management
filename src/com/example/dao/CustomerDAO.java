@@ -17,7 +17,8 @@ public class CustomerDAO {
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
 	static {
-		FileUtil.csvCreater("customer.csv");
+		String[] header = {"Id", "Name", "Phone", "Email"};
+		FileUtil.csvCreater("customer.csv",header);
 	}
 
 	public static int getId(){

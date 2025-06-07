@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtil {
-    public static final String filePath = "/Users/minmaunghein/Flight-Ticket-Management";
+    public static final String filePath = "C:\\Users\\User\\Downloads\\Flight-Ticket-Management";
 
-    public static void csvCreater(String fileName) {
+    public static void csvCreater(String fileName, String[] header) {
         File file = new File(filePath + "/" + fileName);
 
         if (file.exists()) {
@@ -23,7 +23,7 @@ public class FileUtil {
         }
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(file))) {
-            String[] header = {"Id", "Name", "Phone", "Email"};
+
             writer.writeNext(header);
             System.out.println("CSV file created successfully: " + file.getAbsolutePath());
         } catch (IOException ex) {
@@ -56,5 +56,53 @@ public class FileUtil {
         }
         return rows;
     }
+//    public static void csvUpdater(String fileName, String[] data) {
+//        try {
+//            List<String[]> allRows = FileUtil.csvReader(fileName);
+//            String targetId = data[0];
+//            boolean updated = false;
+//
+//            try (FileWriter writer = new FileWriter(fileName, false)) {
+//                for (String[] row : allRows) {
+//                    if (row[0].equals(targetId)) {
+//                        writer.append(String.join(",", data)).append("\n");
+//                        updated = true;
+//                    } else {
+//                        writer.append(String.join(",", row)).append("\n");
+//                    }
+//                }
+//            }
+//
+//            if (updated) {
+//                System.out.println("Row updated successfully!");
+//            } else {
+//                System.out.println("No row found with ID: " + targetId);
+//            }
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+//    public static void csvDeleter(String fileName, String[] data) {
+//        List<String[]> allRows = FileUtil.csvReader(fileName);
+//        boolean deleted = false;
+//        String targetId = data[0];
+//        try (FileWriter writer = new FileWriter(fileName, false)) {
+//            for (String[] row : allRows) {
+//                if (row[0].equals(targetId)) {
+//                    deleted = true; // Skip writing this row
+//                    continue;
+//                }
+//                writer.append(String.join(",", row)).append("\n");
+//            }
+//            if (deleted) {
+//                System.out.println("Row deleted successfully!");
+//            } else {
+//                System.out.println("Row not found for deletion.");
+//            }
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//    }
+
 
 }

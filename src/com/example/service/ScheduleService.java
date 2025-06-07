@@ -3,6 +3,7 @@ package com.example.service;
 import com.example.dao.SchduleDAO;
 
 import com.example.model.Schedule;
+import com.example.util.FileUtil;
 
 public class ScheduleService {
 
@@ -17,6 +18,7 @@ public class ScheduleService {
 		updateSchedule.setArrivalDate(schedule.getArrivalDate());
 		updateSchedule.setDepatureCity(schedule.getDepatureCity());
 		updateSchedule.setArrivalCity(schedule.getArrivalCity());
+//		FileUtil.csvUpdater("schedule.csv",updateSchedule.toArray());
 	}
 
 }
