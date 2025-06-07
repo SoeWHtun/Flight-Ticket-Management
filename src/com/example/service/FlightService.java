@@ -14,7 +14,7 @@ public class FlightService {
 		Flight updateFlight = FlightDAO.findById(id);
 		updateFlight.setFlightName(flight.getFlightName());
 		updateFlight.setFlightNumber(flight.getFlightNumber());
-//		FileUtil.csvUpdater("flight.csv",updateFlight.toArray());
+        FlightDAO.updateFlight(id,updateFlight);
 	}
 
 }

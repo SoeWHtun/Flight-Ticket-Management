@@ -38,26 +38,31 @@ public class Schedule {
         this.arrivalCity = arrivalCity;
     }
 
-    public static Schedule toObj(String[] scheduleRow)throws NumberFormatException {
-        int scheduleId = Integer.parseInt(scheduleRow[0]);
-        String title = scheduleRow[1];
-        int flightId = Integer.parseInt(scheduleRow[2]);
-        int deptDay = Integer.parseInt(scheduleRow[3]);
-        int deptMonth = Integer.parseInt(scheduleRow[4]);
-        int deptYear = Integer.parseInt(scheduleRow[5]);
-        int deptHour = Integer.parseInt(scheduleRow[6]);
-        int deptMinute = Integer.parseInt(scheduleRow[7]);
-        int arrDay = Integer.parseInt(scheduleRow[8]);
-        int arrMonth = Integer.parseInt(scheduleRow[9]);
-        int arrYear = Integer.parseInt(scheduleRow[10]);
-        int arrHour = Integer.parseInt(scheduleRow[11]);
-        int arrMinute = Integer.parseInt(scheduleRow[12]);
-        String deptCity = scheduleRow[13];
-        String arrCity = scheduleRow[14];
-        Flight nFlight = FlightDAO.findById(flightId);
-        LocalDateTime deptDate = LocalDateTime.of(deptYear, deptMonth, deptDay, deptHour, deptMinute);
-        LocalDateTime arrDate = LocalDateTime.of(arrYear, arrMonth, arrDay, arrHour, arrMinute);
-        return new Schedule(scheduleId, title, nFlight, deptDate, arrDate, deptCity, arrCity);
+    public static Schedule toObj(String[] scheduleRow){
+        try {
+            int scheduleId = Integer.parseInt(scheduleRow[0]);
+            String title = scheduleRow[1];
+            int flightId = Integer.parseInt(scheduleRow[2]);
+            int deptDay = Integer.parseInt(scheduleRow[3]);
+            int deptMonth = Integer.parseInt(scheduleRow[4]);
+            int deptYear = Integer.parseInt(scheduleRow[5]);
+            int deptHour = Integer.parseInt(scheduleRow[6]);
+            int deptMinute = Integer.parseInt(scheduleRow[7]);
+            int arrDay = Integer.parseInt(scheduleRow[8]);
+            int arrMonth = Integer.parseInt(scheduleRow[9]);
+            int arrYear = Integer.parseInt(scheduleRow[10]);
+            int arrHour = Integer.parseInt(scheduleRow[11]);
+            int arrMinute = Integer.parseInt(scheduleRow[12]);
+            String deptCity = scheduleRow[13];
+            String arrCity = scheduleRow[14];
+            Flight nFlight = FlightDAO.findById(flightId);
+            LocalDateTime deptDate = LocalDateTime.of(deptYear, deptMonth, deptDay, deptHour, deptMinute);
+            LocalDateTime arrDate = LocalDateTime.of(arrYear, arrMonth, arrDay, arrHour, arrMinute);
+            return new Schedule(scheduleId, title, nFlight, deptDate, arrDate, deptCity, arrCity);
+        }catch (NumberFormatException ex){
+            System.out.println(scheduleRow.toString());
+        }
+        return null;
     }
 
 

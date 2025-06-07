@@ -17,7 +17,7 @@ public class BookingService {
 		updateBooking.setSchedule(booking.getSchedule());
 		updateBooking.setSeat(booking.getSeat());
 		updateBooking.setIsAvailable(booking.getIsAvailable());
-//		FileUtil.csvUpdater("booking.csv",updateBooking.toArray());
+        BookingDAO.updateBooking(id,updateBooking);
 
 	}
 }

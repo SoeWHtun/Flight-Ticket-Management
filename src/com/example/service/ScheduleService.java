@@ -18,7 +18,7 @@ public class ScheduleService {
 		updateSchedule.setArrivalDate(schedule.getArrivalDate());
 		updateSchedule.setDepatureCity(schedule.getDepatureCity());
 		updateSchedule.setArrivalCity(schedule.getArrivalCity());
-//		FileUtil.csvUpdater("schedule.csv",updateSchedule.toArray());
+        SchduleDAO.updateSchedule(id,updateSchedule);
 	}
 
 }

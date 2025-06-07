@@ -86,18 +86,7 @@ public class SchduleDAO {
 	}
 
 	public static void deleteSchedule(int id) {
-		for (int i = 0; i < scheduleCount; i++) {
-			if (scheduleDB[i].getScheduleId() == id) {
-				int j = i;
-				while (scheduleCount > j) {
-					scheduleDB[j] = scheduleDB[j + 1];
-					j++;
-				}
-				scheduleCount--;
-				return;
-
-			}
-		}
+		FileUtil.deleteRecordById("schedule.csv",id+"");
 	}
 
 	public static int getScheduleID() {
@@ -127,4 +116,7 @@ public class SchduleDAO {
 		return checkedId;
 	}
 
+	public static void updateSchedule(int id, Schedule updateSchedule) {
+		FileUtil.updateRecordById("schedule.csv",id+"",updateSchedule.toArray());
+	}
 }

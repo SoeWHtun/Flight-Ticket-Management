@@ -91,18 +91,7 @@ public class BookingDAO {
 	}
 
 	public static void deleteBooking(int bookingId) {
-		for (int i = 0; i < bookingCount; i++) {
-			if (bookingDB[i].getBookingId() == bookingId) {
-				int j = i;
-				while (bookingCount > j) {
-					bookingDB[j] = bookingDB[j + 1];
-					j++;
-				}
-				bookingCount--;
-				return;
-
-			}
-		}
+		FileUtil.deleteRecordById("booking.csv",bookingId+"");
 	}
 
 	public static Booking[] getBookingDB() {
@@ -137,5 +126,9 @@ public class BookingDAO {
 			return checkBookingID(getBookingID());
 		}
 		return checkedId;
+	}
+
+	public static void updateBooking(int id, Booking updateBooking) {
+		FileUtil.updateRecordById("booking.csv",id+"",updateBooking.toArray());
 	}
 }

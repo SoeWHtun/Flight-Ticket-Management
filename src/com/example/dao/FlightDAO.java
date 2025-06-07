@@ -77,18 +77,7 @@ public class FlightDAO {
 	}
 
 	public static void deleteFlight(int id) {
-		for (int i = 0; i < flightCount; i++) {
-			if (flightDB[i].getFlightId() == id) {
-				int j = i;
-				while (flightCount > j) {
-					flightDB[j] = flightDB[j + 1];
-					j++;
-				}
-				flightCount--;
-				return;
-
-			}
-		}
+		FileUtil.deleteRecordById("flight.csv",id+"");
 	}
 
 	public static void displayFlightwithSeat() {
@@ -152,4 +141,8 @@ public class FlightDAO {
 		}
 		return checkedId;
 	}
+
+    public static void updateFlight(int id, Flight updateFlight) {
+		FileUtil.updateRecordById("flight.csv",id+"",updateFlight.toArray());
+    }
 }
