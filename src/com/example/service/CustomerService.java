@@ -7,7 +7,6 @@ import com.example.util.FileUtil;
 public class CustomerService {
 
 	public static void create(Customer customer) {
-
 		CustomerDAO.addCustomer(customer);
 	}
 
@@ -16,7 +15,7 @@ public class CustomerService {
 		updateCustomer.setName(customer.getName());
 		updateCustomer.setEmail(customer.getEmail());
 		updateCustomer.setPhone(customer.getPhone());
-//		FileUtil.csvUpdater("customer.csv",updateCustomer.toArray());
+		CustomerDAO.update(id, updateCustomer);
 	}
 
 }

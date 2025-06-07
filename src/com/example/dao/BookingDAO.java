@@ -79,7 +79,6 @@ public class BookingDAO {
 	public static void displayBooking() {
 		for (Booking booking : getAllBooking()) {
 			System.out.println(booking);
-
 		}
 	}
 

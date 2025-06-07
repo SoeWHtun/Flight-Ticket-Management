@@ -2,17 +2,15 @@ package com.example.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtil {
-    public static final String filePath = "C:\\Users\\User\\Downloads\\Flight-Ticket-Management";
+    public static final String filePath = "/Users/minmaunghein/Flight-Ticket-Management";
 
     public static void csvCreater(String fileName, String[] header) {
         File file = new File(filePath + "/" + fileName);
@@ -56,53 +54,60 @@ public class FileUtil {
         }
         return rows;
     }
-//    public static void csvUpdater(String fileName, String[] data) {
-//        try {
-//            List<String[]> allRows = FileUtil.csvReader(fileName);
-//            String targetId = data[0];
-//            boolean updated = false;
-//
-//            try (FileWriter writer = new FileWriter(fileName, false)) {
-//                for (String[] row : allRows) {
-//                    if (row[0].equals(targetId)) {
-//                        writer.append(String.join(",", data)).append("\n");
-//                        updated = true;
-//                    } else {
-//                        writer.append(String.join(",", row)).append("\n");
-//                    }
-//                }
-//            }
-//
-//            if (updated) {
-//                System.out.println("Row updated successfully!");
-//            } else {
-//                System.out.println("No row found with ID: " + targetId);
-//            }
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
-//    public static void csvDeleter(String fileName, String[] data) {
-//        List<String[]> allRows = FileUtil.csvReader(fileName);
-//        boolean deleted = false;
-//        String targetId = data[0];
-//        try (FileWriter writer = new FileWriter(fileName, false)) {
-//            for (String[] row : allRows) {
-//                if (row[0].equals(targetId)) {
-//                    deleted = true; // Skip writing this row
-//                    continue;
-//                }
-//                writer.append(String.join(",", row)).append("\n");
-//            }
-//            if (deleted) {
-//                System.out.println("Row deleted successfully!");
-//            } else {
-//                System.out.println("Row not found for deletion.");
-//            }
-//        } catch (IOException ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 
 
+    public static void updateRecordById(String fileName, String tergetId, String[] updateRow) {
+        List<String[]> allRows = List.of();
+        try(CSVReader reader = new CSVReader(new FileReader(filePath +"/"+fileName))){
+            allRows = reader.readAll();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        for(int i = 1; i< allRows.size(); i++){
+            String[] row = allRows.get(i);
+            if(row[0].equalsIgnoreCase(tergetId)){
+                allRows.set(i,updateRow);
+            }
+        }
+
+        try(CSVWriter writer = new CSVWriter(new FileWriter(filePath+"/"+fileName))){
+            writer.writeAll(allRows);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        System.out.print("Updated record with ID:"+ tergetId);
+    }
+
+
+    public static void deleteRecordById(String fileName, String tergetId) {
+        List<String[]> allRows = List.of();
+        try(CSVReader reader = new CSVReader(new FileReader(filePath +"/"+fileName))){
+            allRows = reader.readAll();
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        String[] header = allRows.get(0);
+
+        List<String[]> updatedRows = new ArrayList<>();
+        updatedRows.add(header);
+
+        for(int i = 1; i< allRows.size(); i++){
+            String[] row = allRows.get(i);
+            if(!row[0].equalsIgnoreCase(tergetId)){
+                updatedRows.add(row);
+            }
+        }
+
+       try(CSVWriter writer = new CSVWriter(new FileWriter(filePath+"/"+fileName))){
+           writer.writeAll(updatedRows);
+       }catch (Exception ex){
+           ex.printStackTrace();
+       }
+
+       System.out.print("Deleted record with ID:"+ tergetId);
+
+    }
 }

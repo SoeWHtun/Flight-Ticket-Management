@@ -1,12 +1,10 @@
 package com.example.dao;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.example.model.Customer;
 import com.example.util.FileUtil;
 
@@ -68,18 +66,7 @@ public class CustomerDAO {
 	}
 
 	public static void delete(int customerId) {
-		for (int i = 0; i < customerCount; i++) {
-			if (customerDB[i].getCustomerId() == customerId) {
-				int j = i;
-				while (customerCount > j) {
-					customerDB[j] = customerDB[j + 1];
-					j++;
-				}
-				customerCount--;
-				return;
-
-			}
-		}
+		FileUtil.deleteRecordById("customer.csv", customerId+"");
 	}
 
 	public static int getCustomerID() {
@@ -109,4 +96,7 @@ public class CustomerDAO {
 		return checkedId;
 	}
 
+	public static void update(int id, Customer updateCustomer) {
+		FileUtil.updateRecordById("customer.csv", id+"", updateCustomer.toArray());
+	}
 }
