@@ -1,6 +1,7 @@
 package com.example.model;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import com.example.dao.CustomerDAO;
 import com.example.dao.FlightDAO;
@@ -60,7 +61,7 @@ public class Schedule {
             LocalDateTime arrDate = LocalDateTime.of(arrYear, arrMonth, arrDay, arrHour, arrMinute);
             return new Schedule(scheduleId, title, nFlight, deptDate, arrDate, deptCity, arrCity);
         }catch (NumberFormatException ex){
-            System.out.println(scheduleRow.toString());
+            System.out.println(Arrays.toString(scheduleRow));
         }
         return null;
     }

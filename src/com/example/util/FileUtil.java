@@ -2,7 +2,6 @@ package com.example.util;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.*;
@@ -10,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileUtil {
-    public static final String filePath = "C:\\Users\\User\\Downloads\\Flight-Ticket-Management";
+//    public static final String filePath = "C:\\Users\\User\\Downloads\\Flight-Ticket-Management";
+
+    public static final String filePath = "/Users/minmaunghein/Flight-Ticket-Management";
 
     public static void csvCreater(String fileName, String[] header) {
         File file = new File(filePath + "/" + fileName);
