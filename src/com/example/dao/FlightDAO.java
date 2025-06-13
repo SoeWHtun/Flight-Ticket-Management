@@ -6,8 +6,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.dao.booking.BookingDaoImpl;
 import com.example.model.Booking;
-import com.example.model.Customer;
 import com.example.model.Flight;
 import com.example.model.Seat;
 import com.example.util.FileUtil;
@@ -88,7 +88,7 @@ public class FlightDAO {
 			for (Seat seat : SeatDAO.getAllSeat()) {
 				if (seat.getFlight().getFlightId() == flight.getFlightId()) {
 					boolean isBooked = false;
-					for (Booking booking : BookingDAO.getAllBooking()) {
+					for (Booking booking : BookingDaoImpl.getAllBooking()) {
 						if (booking.getSeat().getSeatId() == seat.getSeatId()
 								&& booking.getIsAvailable() == false) {
 							isBooked = true;

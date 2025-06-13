@@ -1,23 +1,22 @@
 package com.example.service;
 
-import com.example.dao.BookingDAO;
+import com.example.dao.booking.BookingDaoImpl;
 import com.example.model.Booking;
-import com.example.util.FileUtil;
 
 public class BookingService {
 	public static void createBooking(Booking booking) {
 
-		BookingDAO.addBooking(booking);
+		BookingDaoImpl.addBooking(booking);
 	}
 
 	public static void updateBooking(int id, Booking booking) {
-		Booking updateBooking = BookingDAO.findById(id);
+		Booking updateBooking = BookingDaoImpl.findById(id);
 		updateBooking.setCustomer(booking.getCustomer());
 		updateBooking.setFlight(booking.getFlight());
 		updateBooking.setSchedule(booking.getSchedule());
 		updateBooking.setSeat(booking.getSeat());
 		updateBooking.setIsAvailable(booking.getIsAvailable());
-        BookingDAO.updateBooking(id,updateBooking);
+        BookingDaoImpl.updateBooking(id,updateBooking);
 
 	}
 }

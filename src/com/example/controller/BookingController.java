@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.example.dao.BookingDAO;
+import com.example.dao.booking.BookingDaoImpl;
 import com.example.dao.CustomerDAO;
 import com.example.dao.SchduleDAO;
 import com.example.dao.SeatDAO;
@@ -49,9 +49,9 @@ public class BookingController {
 	private void updateBooking() throws IOException {
 		int customerId = CustomerDAO.getCustomerID();
 		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
-		BookingDAO.displayBookingbyCustomer(cCustomerId);
-		int bookingId = BookingDAO.getBookingID();
-		int cBookingId = BookingDAO.checkBookingID(bookingId);
+		BookingDaoImpl.displayBookingbyCustomer(cCustomerId);
+		int bookingId = BookingDaoImpl.getBookingID();
+		int cBookingId = BookingDaoImpl.checkBookingID(bookingId);
 		SchduleDAO.displaySchedule();
 		int id = SchduleDAO.getScheduleID();
 		int cId = SchduleDAO.checkScheduleID(id);
@@ -62,7 +62,7 @@ public class BookingController {
 		do {
 			seatId = SeatDAO.getSeatID();
 			cSeatId = SeatDAO.checkSeatID(seatId);
-			seatAvailable = BookingDAO.checkAvailableById(cSeatId);
+			seatAvailable = BookingDaoImpl.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = CustomerDAO.findById(cCustomerId);
 		Schedule schedule = SchduleDAO.findById(cId);
@@ -70,7 +70,7 @@ public class BookingController {
 		Booking updateBooking = new Booking(customer, schedule.getFlight(), schedule, seat);
 		BookingService.updateBooking(cBookingId, updateBooking);
 		System.out.println("\nBooking details updated\n");
-		Booking foundBooking = BookingDAO.findById(cBookingId);
+		Booking foundBooking = BookingDaoImpl.findById(cBookingId);
 		System.out.println(foundBooking);
 	}
 
@@ -78,19 +78,19 @@ public class BookingController {
 
 		int customerId = CustomerDAO.getCustomerID();
 		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
-		BookingDAO.displayBookingbyCustomer(cCustomerId);
+		BookingDaoImpl.displayBookingbyCustomer(cCustomerId);
 	}
 
 	private void cancel() throws IOException {
 
 		int customerId = CustomerDAO.getCustomerID();
 		int cCustomerId = CustomerDAO.checkCustomerID(customerId);
-		BookingDAO.displayBookingbyCustomer(cCustomerId);
-		int id = BookingDAO.getBookingID();
-		int cId = BookingDAO.checkBookingID(id);
-		BookingDAO.deleteBooking(cId);
+		BookingDaoImpl.displayBookingbyCustomer(cCustomerId);
+		int id = BookingDaoImpl.getBookingID();
+		int cId = BookingDaoImpl.checkBookingID(id);
+		BookingDaoImpl.deleteBooking(cId);
 		System.out.println("\nBooking ID: " + cId + " (Cancelled)");
-		BookingDAO.displayBookingbyCustomer(cCustomerId);
+		BookingDaoImpl.displayBookingbyCustomer(cCustomerId);
 	}
 
 	private void createByRoute() throws IOException {
@@ -115,7 +115,7 @@ public class BookingController {
 
 			seatId = SeatDAO.getSeatID();
 			cSeatId = SeatDAO.checkSeatID(seatId);
-			seatAvailable = BookingDAO.checkAvailableById(cSeatId);
+			seatAvailable = BookingDaoImpl.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = CustomerDAO.findById(cCustomerId);
 		Seat seat = SeatDAO.findById(cSeatId);
@@ -140,7 +140,7 @@ public class BookingController {
 
 			seatId = SeatDAO.getSeatID();
 			cSeatId = SeatDAO.checkSeatID(seatId);
-			seatAvailable = BookingDAO.checkAvailableById(cSeatId);
+			seatAvailable = BookingDaoImpl.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = CustomerDAO.findById(cCustomerId);
 		Schedule schedule = SchduleDAO.findById(cId);

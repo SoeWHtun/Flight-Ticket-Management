@@ -1,6 +1,7 @@
 package com.example.model;
 
 import com.example.dao.*;
+import com.example.dao.booking.BookingDaoImpl;
 
 public class Booking {
     private int bookingId;
@@ -11,7 +12,7 @@ public class Booking {
     private Boolean isAvailable;
 
     public Booking(Customer customer, Flight flight, Schedule schedule, Seat seat) {
-        this.bookingId = BookingDAO.getBookingCount() + 1;
+        this.bookingId = BookingDaoImpl.getBookingCount() + 1;
         this.customer = customer;
         this.flight = flight;
         this.schedule = schedule;
