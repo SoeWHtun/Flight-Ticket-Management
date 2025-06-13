@@ -70,7 +70,7 @@ public class CustomerController {
 		String email = bufferedReader.readLine();
 		Customer updateCustomer = new Customer(name, phone, email);
 		CustomerService.update(cCustomerId, updateCustomer);
-		System.out.println("Customer Details Updated\n");
+		System.out.println("\nCustomer Details Updated\n");
 		Customer foundCustomer = CustomerDAO.findById(cCustomerId);
 		System.out.println(foundCustomer);
 	}

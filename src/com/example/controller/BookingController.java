@@ -89,7 +89,7 @@ public class BookingController {
 		int id = BookingDAO.getBookingID();
 		int cId = BookingDAO.checkBookingID(id);
 		BookingDAO.deleteBooking(cId);
-		System.out.print("Booking ID: " + cId + " (Cancelled)");
+		System.out.println("\nBooking ID: " + cId + " (Cancelled)");
 		BookingDAO.displayBookingbyCustomer(cCustomerId);
 	}
 
