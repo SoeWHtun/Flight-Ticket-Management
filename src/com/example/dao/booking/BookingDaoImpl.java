@@ -13,30 +13,12 @@ import com.example.util.FileUtil;
 import static com.example.dao.booking.BookingDao.FILE_NAME;
 
 public class BookingDaoImpl implements AbstractDao<Booking> {
-
-	private static Booking[] bookingDB = new Booking[1000];
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 	public static BookingDaoImpl bookingDao = new BookingDaoImpl();
 	static {
 		String[] header = {"Id", "customerId", "flightId", "scheduleId","seatId"};
 		FileUtil.csvCreater(FILE_NAME,header);
-	}
-    public int getBookingCount(){
-		int count=0;
-		for(Booking booking : getAll()){
-			count++;
-		}
-		return count;
-	}
-	public int getBookingCSVId(){
-		List<Booking> bookingList = getAll();
-		if(bookingList.size()>0){
-			bookingList.sort((c1, c2)-> Integer.compare(c1.getBookingId(), c2.getBookingId()));
-			return bookingList.getLast().getBookingId() + 1;}
-		else{
-			return 1;
-		}
 	}
 
 	private static List<Booking> toBookings(List<String[]> bookingsData) {
@@ -68,14 +50,10 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 
 	public void displayBookingbyCustomer(int id) {
 		for (Booking booking : getAll()) {
-			if (booking.getCustomer().getCustomerId() == id) {
+			if (booking.getCustomer().getId() == id) {
 				System.out.println(booking);
 			}
 		}
-	}
-
-	public static Booking[] getBookingDB() {
-		return bookingDB;
 	}
 
 	public int getBookingID() {
@@ -94,7 +72,7 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 		int checkedId = 0;
 		try {
 			Booking checkBooking = findById(id);
-			checkedId = checkBooking.getBookingId();
+			checkedId = checkBooking.getId();
 		} catch (NullPointerException ex) {
 			System.out.print("\nNo Booking found!Please enter valid ID\n");
 			return checkBookingID(getBookingID());
@@ -105,14 +83,14 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 	@Override
 	public void create(Booking booking) {
 
-		booking.setBookingId(getBookingCSVId());
+		booking.setId(getCSVId());
 		FileUtil.csvWriter(FILE_NAME, booking.toArray());
 	}
 
 	@Override
 	public Booking findById(int id) {
 		for (Booking booking : getAll()) {
-			if (booking.getBookingId() == id) {
+			if (booking.getId() == id) {
 				return booking;
 			}
 		}

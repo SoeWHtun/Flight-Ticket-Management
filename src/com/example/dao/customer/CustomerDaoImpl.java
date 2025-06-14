@@ -13,7 +13,6 @@ import com.example.util.FileUtil;
 import static com.example.dao.customer.CustomerDao.FILE_NAME;
 
 public class CustomerDaoImpl implements AbstractDao<Customer> {
-    private static Customer[] customerDB = new Customer[1000];
     public static CustomerDaoImpl customerDao = new CustomerDaoImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -23,36 +22,11 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
         FileUtil.csvCreater(FILE_NAME, header);
     }
 
-    public int getId() {
-        List<Customer> customerList = getAll();
-        customerList.sort((c1, c2) -> Integer.compare(c1.getCustomerId(), c2.getCustomerId()));
-        return customerList.getLast().getCustomerId() + 1;
-    }
-
-    public int getCustomerCount() {
-        int count = 0;
-        for (Customer customer : getAll()) {
-            count++;
-        }
-        return count;
-    }
-
-
-    private static List<Customer> toCustomers(List<String[]> customersData) {
-        List<Customer> customerList = new ArrayList<>();
-        for (String[] customerRow : customersData) {
-            Customer customer = Customer.toObj(customerRow);
-            customerList.add(customer);
-        }
-        return customerList;
-    }
-
     public void displayCustomer() {
         for (Customer customer : getAll()) {
             System.out.println(customer);
         }
     }
-
 
     public int getCustomerID() {
         int customerID;
@@ -73,7 +47,7 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
         int checkedId = 0;
         try {
             Customer checkCustomer = findById(id);
-            checkedId = checkCustomer.getCustomerId();
+            checkedId = checkCustomer.getId();
         } catch (NullPointerException ex) {
             System.out.print("\nNo User found!Please enter valid ID\n");
             return checkCustomerID(getCustomerID());
@@ -81,18 +55,17 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
         return checkedId;
     }
 
-
     @Override
     public void create(Customer customer) {
 
-        customer.setCustomerId(getId());
+        customer.setId(getCSVId());
         FileUtil.csvWriter(FILE_NAME, customer.toArray());
     }
 
     @Override
     public Customer findById(int id) {
         for (Customer customer : getAll()) {
-            if (customer.getCustomerId() == id) {
+            if (customer.getId() == id) {
                 return customer;
             }
         }
@@ -113,7 +86,7 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
     @Override
     public List<Customer> getAll() {
         List<String[]> customersData = FileUtil.csvReader(FILE_NAME);
-        List<Customer> customerList = toCustomers(customersData);
+        List<Customer> customerList = toObjects(customersData);
         return customerList;
     }
 }

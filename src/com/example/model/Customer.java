@@ -2,40 +2,36 @@ package com.example.model;
 
 import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 
-public class Customer {
-    private int customerId;
+public class Customer extends MasterData{
     private String name;
     private String phone;
     private  String email;
+
+	public Customer(){
+
+	}
     
     public Customer(String name,String phone,String email) {
-    	this.customerId= customerDao.getCustomerCount()+1;
+    	super.setId(customerDao.getCount()+1);
     	this.name=name;
     	this.phone=phone;
     	this.email=email;
     }
 
 	public Customer(int id, String name,String phone,String email) {
-		this.customerId= id;
+		super.setId(id);
 		this.name=name;
 		this.phone=phone;
 		this.email=email;
 	}
 
 	public static Customer toObj(String[] customerRow) {
-		int customerId = Integer.parseInt(customerRow[0]);
-		String name = customerRow[1];
-		String phone = customerRow[2];
-		String email = customerRow[3];
-		return new Customer(customerId, name, phone, email);
-	}
-
-	public int getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+		Customer customer = new Customer();
+		customer.setId(Integer.parseInt(customerRow[0]));
+		customer.name = customerRow[1];
+		customer.phone = customerRow[2];
+		customer.email = customerRow[3];
+		return customer;
 	}
 
 	public String getName() {
@@ -63,12 +59,12 @@ public class Customer {
 	}
 
 	public String[] toArray(){
-		return new String[]{this.customerId+"", this.name, this.phone, this.email};
+		return new String[]{ getId()+"",this.name, this.phone, this.email};
 	}
 	
 	@Override
 	public String toString() {
-		String str = "\nCustomer ID: " + getCustomerId();
+		String str = "\nCustomer ID: " + getId();
 		str += "\nCustomer Name: " + getName();
 		str += "\nPhone Number: " + getPhone();
 		str += "\nEmail: " + getEmail()+"\n";

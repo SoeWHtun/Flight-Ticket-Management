@@ -17,7 +17,6 @@ import static com.example.dao.booking.BookingDaoImpl.bookingDao;
 import static com.example.dao.flight.FlightDao.FLIGHT_FILE;
 
 public class FlightDAOImpl implements AbstractDao<Flight> {
-    private static Flight[] flightDB = new Flight[1000];
     public static FlightDAOImpl flightDAO = new FlightDAOImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -46,14 +45,6 @@ public class FlightDAOImpl implements AbstractDao<Flight> {
             flightList.add(flight);
         }
         return flightList;
-    }
-
-    public int getFlightCount() {
-        int count = 0;
-        for (Flight flight : getAll()) {
-            count++;
-        }
-        return count;
     }
 
 

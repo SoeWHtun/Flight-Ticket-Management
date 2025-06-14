@@ -7,21 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dao.AbstractDao;
-import com.example.model.Flight;
 import com.example.model.Schedule;
 import com.example.util.FileUtil;
-
-import static com.example.dao.flight.FlightDao.FLIGHT_FILE;
 import static com.example.dao.schedule.ScheduleDAO.SCHEDULE_FILE;
 
 public class SchduleDaoImpl implements AbstractDao<Schedule> {
-    private static Schedule[] scheduleDB = new Schedule[1000];
     public static SchduleDaoImpl schduleDao = new SchduleDaoImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
     static {
-
         String[] header = {"scheduleId", "scheduleTitle", "flightId", "depatureDay", "depatureMonth", "depatureYear", "depatureHour", "depatureMinute", "arrivalDay", "arrivalMonth", "arrivalYear", "arrivalHour", "arrivalMinute", "depatureCity", "arrivalCity"};
         FileUtil.csvCreater(SCHEDULE_FILE, header);
     }

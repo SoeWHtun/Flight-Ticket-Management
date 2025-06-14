@@ -1,16 +1,15 @@
 package com.example.model;
 
-import com.example.dao.flight.FlightDAOImpl;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
-public class Flight {
+public class Flight extends MasterData{
 	private int flightId;
 	private String flightName;
 	private String flightNumber;
 
 	public Flight(String flightName, String flightNumber) {
-		this.flightId = flightDAO.getFlightCount() + 1;
+		this.flightId = flightDAO.getCount() + 1;
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}

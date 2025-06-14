@@ -1,7 +1,5 @@
 package com.example.model;
 
-import com.example.dao.flight.FlightDAOImpl;
-import com.example.dao.schedule.SchduleDaoImpl;
 import com.example.dao.seat.SeatDaoImpl;
 
 import static com.example.dao.customer.CustomerDaoImpl.customerDao;
@@ -9,8 +7,7 @@ import static com.example.dao.booking.BookingDaoImpl.bookingDao;
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
-public class Booking {
-    private int bookingId;
+public class Booking extends MasterData{
     private Customer customer;
     private Flight flight;
     private Schedule schedule;
@@ -18,7 +15,7 @@ public class Booking {
     private Boolean isAvailable;
 
     public Booking(Customer customer, Flight flight, Schedule schedule, Seat seat) {
-        this.bookingId = bookingDao.getBookingCount() + 1;
+        super.setId(bookingDao.getCount() + 1);
         this.customer = customer;
         this.flight = flight;
         this.schedule = schedule;
@@ -27,7 +24,7 @@ public class Booking {
     }
 
     public Booking(int bookingId, Customer customer, Flight flight, Schedule schedule, Seat seat) {
-        this.bookingId = bookingId;
+        super.setId(bookingId);
         this.customer = customer;
         this.flight = flight;
         this.schedule = schedule;
@@ -55,14 +52,6 @@ public class Booking {
 
     public void setSeat(Seat seat) {
         this.seat = seat;
-    }
-
-    public int getBookingId() {
-        return bookingId;
-    }
-
-    public void setBookingId(int bookingId) {
-        this.bookingId = bookingId;
     }
 
     public Customer getCustomer() {
@@ -98,12 +87,12 @@ public class Booking {
     }
 
     public String[] toArray() {
-        return new String[]{this.bookingId + "", this.customer.getCustomerId() + "", this.flight.getFlightId() + "", this.schedule.getScheduleId() + "", this.seat.getSeatId() + ""};
+        return new String[]{this.customer.getId() + "", this.flight.getFlightId() + "", this.schedule.getScheduleId() + "", this.seat.getSeatId() + ""};
     }
 
     @Override
     public String toString() {
-        String str = "\n[ Booking ID: " + getBookingId() + " ]" + "\n" + getCustomer() + "\n" + getSchedule() + "\n"
+        String str = "\n[ "+this.getId() +"\n"+ getCustomer() + "\n" + getSchedule() + "\n"
                 + getSeat();
         return str;
     }
