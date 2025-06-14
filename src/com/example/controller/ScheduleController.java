@@ -6,13 +6,16 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import com.example.dao.FlightDAO;
-import com.example.dao.SchduleDAO;
+import com.example.dao.flight.FlightDAOImpl;
+import com.example.dao.schedule.SchduleDaoImpl;
 
 import com.example.model.Flight;
 import com.example.model.Schedule;
 import com.example.service.FlightService;
 import com.example.service.ScheduleService;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
+import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
 public class ScheduleController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -50,32 +53,32 @@ public class ScheduleController {
 	}
 
 	private void delete() throws IOException {
-		int id = SchduleDAO.getScheduleID();
-		int cId = SchduleDAO.checkScheduleID(id);
-		SchduleDAO.deleteSchedule(cId);
-		SchduleDAO.displaySchedule();
+		int id = schduleDao.getScheduleID();
+		int cId = schduleDao.checkScheduleID(id);
+		schduleDao.delete(cId);
+		schduleDao.displaySchedule();
 	}
 
 	private void viewAll() {
-		SchduleDAO.displaySchedule();
+		schduleDao.displaySchedule();
 	}
 
 	private void findById() throws IOException {
-		int id = SchduleDAO.getScheduleID();
-		int cId = SchduleDAO.checkScheduleID(id);
-		Schedule foundSchedule = SchduleDAO.findById(cId);
+		int id = schduleDao.getScheduleID();
+		int cId = schduleDao.checkScheduleID(id);
+		Schedule foundSchedule = schduleDao.findById(cId);
 		System.out.println(foundSchedule);
 	}
 
 	private void edit() throws IOException {
-		int id = SchduleDAO.getScheduleID();
-		int cId = SchduleDAO.checkScheduleID(id);
+		int id = schduleDao.getScheduleID();
+		int cId = schduleDao.checkScheduleID(id);
 		System.out.print("Enter schedule title: ");
 		String title = bufferedReader.readLine();
-		FlightDAO.displayFlight();
-		int fid = FlightDAO.getFlightID();
-		int cFId = FlightDAO.checkFlightID(fid);
-		Flight foundFlight = FlightDAO.findById(cFId);
+		flightDAO.displayFlight();
+		int fid = flightDAO.getFlightID();
+		int cFId = flightDAO.checkFlightID(fid);
+		Flight foundFlight = flightDAO.findById(cFId);
 		System.out.print("Enter departure date and time (yyyy-MM-dd HH:mm): ");
 		String deptDateTimeStr = bufferedReader.readLine();
 		LocalDateTime deptDate = LocalDateTime.parse(deptDateTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
@@ -91,17 +94,17 @@ public class ScheduleController {
 		Schedule updateSchedule = new Schedule(title, foundFlight, deptDate, arrivalDate, deptCity, arrivalCity);
 		ScheduleService.updateSchedule(cId, updateSchedule);
 		System.out.println("Schedule Details Updated\n");
-		Schedule foundSchedule = SchduleDAO.findById(cId);
+		Schedule foundSchedule = schduleDao.findById(cId);
 		System.out.println(foundSchedule);
 	}
 
 	private void create() throws IOException {
 		System.out.print("Enter schedule title: ");
 		String title = bufferedReader.readLine();
-		FlightDAO.displayFlight();
-		int id = FlightDAO.getFlightID();
-		int cId = FlightDAO.checkFlightID(id);
-		Flight foundFlight = FlightDAO.findById(cId);
+		flightDAO.displayFlight();
+		int id = flightDAO.getFlightID();
+		int cId = flightDAO.checkFlightID(id);
+		Flight foundFlight = flightDAO.findById(cId);
 		System.out.print("Enter departure date and time (yyyy-MM-dd HH:mm): ");
 		String deptDateTimeStr = bufferedReader.readLine();
 		LocalDateTime deptDate = LocalDateTime.parse(deptDateTimeStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));

@@ -17,11 +17,18 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 	private static Booking[] bookingDB = new Booking[1000];
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+	public static BookingDaoImpl bookingDao = new BookingDaoImpl();
 	static {
 		String[] header = {"Id", "customerId", "flightId", "scheduleId","seatId"};
 		FileUtil.csvCreater(FILE_NAME,header);
 	}
-
+    public int getBookingCount(){
+		int count=0;
+		for(Booking booking : getAll()){
+			count++;
+		}
+		return count;
+	}
 	public int getBookingCSVId(){
 		List<Booking> bookingList = getAll();
 		if(bookingList.size()>0){
@@ -71,7 +78,7 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 		return bookingDB;
 	}
 
-	public static int getBookingID() {
+	public int getBookingID() {
 		int bookingID;
 		try {
 			System.out.print("Enter your booking ID: ");
@@ -97,6 +104,7 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 
 	@Override
 	public void create(Booking booking) {
+
 		booking.setBookingId(getBookingCSVId());
 		FileUtil.csvWriter(FILE_NAME, booking.toArray());
 	}

@@ -1,6 +1,6 @@
 package com.example.model;
 
-import com.example.dao.CustomerDAO;
+import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 
 public class Customer {
     private int customerId;
@@ -9,7 +9,7 @@ public class Customer {
     private  String email;
     
     public Customer(String name,String phone,String email) {
-    	this.customerId=CustomerDAO.getCustomerCount()+1;
+    	this.customerId= customerDao.getCustomerCount()+1;
     	this.name=name;
     	this.phone=phone;
     	this.email=email;

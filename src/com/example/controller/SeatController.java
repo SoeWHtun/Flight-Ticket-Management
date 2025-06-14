@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.example.dao.FlightDAO;
-import com.example.dao.SeatDAO;
+import com.example.dao.seat.SeatDaoImpl;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class SeatController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -34,14 +35,14 @@ public class SeatController {
 	}
 
 	private void viewByFlight() throws IOException {
-		FlightDAO.displayFlight();
-		int id = FlightDAO.getFlightID();
-		int cId = FlightDAO.checkFlightID(id);
-		SeatDAO.displayByFlightId(cId);
+		flightDAO.displayFlight();
+		int id = flightDAO.getFlightID();
+		int cId = flightDAO.checkFlightID(id);
+		SeatDaoImpl.displayByFlightId(cId);
 	}
 
 	private void viewAll() {
-		SeatDAO.displayAllSeat();
+		SeatDaoImpl.displayAllSeat();
 	}
 
 }

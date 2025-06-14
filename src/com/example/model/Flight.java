@@ -1,6 +1,8 @@
 package com.example.model;
 
-import com.example.dao.FlightDAO;
+import com.example.dao.flight.FlightDAOImpl;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class Flight {
 	private int flightId;
@@ -8,7 +10,7 @@ public class Flight {
 	private String flightNumber;
 
 	public Flight(String flightName, String flightNumber) {
-		this.flightId = FlightDAO.getFlightCount() + 1;
+		this.flightId = flightDAO.getFlightCount() + 1;
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}

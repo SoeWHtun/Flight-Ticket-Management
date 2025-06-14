@@ -1,7 +1,9 @@
 package com.example.model;
 
-import com.example.dao.FlightDAO;
-import com.example.dao.SeatDAO;
+import com.example.dao.flight.FlightDAOImpl;
+import com.example.dao.seat.SeatDaoImpl;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class Seat {
 	private int seatId;
@@ -9,7 +11,7 @@ public class Seat {
 	private Flight flight;
 
 	public Seat(Flight flight, String seatNumber) {
-		this.seatId = SeatDAO.getSeatCount() + 1;
+		this.seatId = SeatDaoImpl.getSeatCount() + 1;
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
@@ -22,7 +24,7 @@ public class Seat {
 		int seatId = Integer.parseInt(seatRow[0]);
 		int flightId = Integer.parseInt(seatRow[1]);
 		String seatNumber = seatRow[2];
-		Flight nflight = FlightDAO.findById(flightId);
+		Flight nflight = flightDAO.findById(flightId);
 		return new Seat(seatId,nflight,seatNumber);
 	}
 

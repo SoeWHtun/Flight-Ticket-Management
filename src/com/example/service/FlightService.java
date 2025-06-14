@@ -1,20 +1,21 @@
 package com.example.service;
 
-import com.example.dao.FlightDAO;
+import com.example.dao.flight.FlightDAOImpl;
 import com.example.model.Flight;
-import com.example.util.FileUtil;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class FlightService {
 
 	public static void createFlight(Flight flight) {
-		FlightDAO.addFlight(flight);
+		flightDAO.create(flight);
 	}
 
 	public static void updateFlight(int id, Flight flight) {
-		Flight updateFlight = FlightDAO.findById(id);
+		Flight updateFlight = flightDAO.findById(id);
 		updateFlight.setFlightName(flight.getFlightName());
 		updateFlight.setFlightNumber(flight.getFlightNumber());
-        FlightDAO.updateFlight(id,updateFlight);
+        flightDAO.update(id,updateFlight);
 	}
 
 }

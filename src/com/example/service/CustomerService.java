@@ -1,21 +1,21 @@
 package com.example.service;
 
-import com.example.dao.CustomerDAO;
 import com.example.model.Customer;
-import com.example.util.FileUtil;
+
+import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 
 public class CustomerService {
 
 	public static void create(Customer customer) {
-		CustomerDAO.addCustomer(customer);
+		customerDao.create(customer);
 	}
 
 	public static void update(int id, Customer customer) {
-		Customer updateCustomer = CustomerDAO.findById(id);
+		Customer updateCustomer = customerDao.findById(id);
 		updateCustomer.setName(customer.getName());
 		updateCustomer.setEmail(customer.getEmail());
 		updateCustomer.setPhone(customer.getPhone());
-		CustomerDAO.update(id, updateCustomer);
+		customerDao.update(id, updateCustomer);
 	}
 
 }

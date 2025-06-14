@@ -1,7 +1,13 @@
 package com.example.model;
 
-import com.example.dao.*;
-import com.example.dao.booking.BookingDaoImpl;
+import com.example.dao.flight.FlightDAOImpl;
+import com.example.dao.schedule.SchduleDaoImpl;
+import com.example.dao.seat.SeatDaoImpl;
+
+import static com.example.dao.customer.CustomerDaoImpl.customerDao;
+import static com.example.dao.booking.BookingDaoImpl.bookingDao;
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
+import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
 public class Booking {
     private int bookingId;
@@ -12,7 +18,7 @@ public class Booking {
     private Boolean isAvailable;
 
     public Booking(Customer customer, Flight flight, Schedule schedule, Seat seat) {
-        this.bookingId = BookingDaoImpl.getBookingCount() + 1;
+        this.bookingId = bookingDao.getBookingCount() + 1;
         this.customer = customer;
         this.flight = flight;
         this.schedule = schedule;
@@ -35,10 +41,10 @@ public class Booking {
         int flightId = Integer.parseInt(bookingRow[2]);
         int scheduleId = Integer.parseInt(bookingRow[3]);
         int seatId = Integer.parseInt(bookingRow[4]);
-        Customer nCustomer = CustomerDAO.findById(customerId);
-        Flight nFlight = FlightDAO.findById(flightId);
-        Schedule nSchedule = SchduleDAO.findById(scheduleId);
-        Seat nSeat = SeatDAO.findById(seatId);
+        Customer nCustomer = customerDao.findById(customerId);
+        Flight nFlight = flightDAO.findById(flightId);
+        Schedule nSchedule = schduleDao.findById(scheduleId);
+        Seat nSeat = SeatDaoImpl.findById(seatId);
         return new Booking(bookingId, nCustomer, nFlight, nSchedule, nSeat);
     }
 

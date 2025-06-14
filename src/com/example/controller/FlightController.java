@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.example.dao.FlightDAO;
+import com.example.dao.flight.FlightDAOImpl;
 
 import com.example.model.Flight;
 
 import com.example.service.FlightService;
 import com.example.service.SeatService;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class FlightController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -47,33 +49,33 @@ public class FlightController {
 	}
 
 	private void viewAvailable() {
-		FlightDAO.displayFlightwithSeat();
+		flightDAO.displayFlightwithSeat();
 	}
 
 	private void deleteFlight() throws IOException {
-		int id = FlightDAO.getFlightID();
-		int cId = FlightDAO.checkFlightID(id);
-		FlightDAO.deleteFlight(cId);
-		FlightDAO.displayFlight();
+		int id = flightDAO.getFlightID();
+		int cId = flightDAO.checkFlightID(id);
+		flightDAO.delete(cId);
+		flightDAO.displayFlight();
 	}
 
 	private void viewAllFlight() {
-		FlightDAO.displayFlight();
+		flightDAO.displayFlight();
 
 	}
 
 	private void findById() throws IOException {
 
-		int id = FlightDAO.getFlightID();
-		int cId = FlightDAO.checkFlightID(id);
-		Flight foundFlight = FlightDAO.findById(cId);
+		int id = flightDAO.getFlightID();
+		int cId = flightDAO.checkFlightID(id);
+		Flight foundFlight = flightDAO.findById(cId);
 		System.out.println(foundFlight);
 	}
 
 	private void editFlight() throws IOException {
 
-		int id = FlightDAO.getFlightID();
-		int cId = FlightDAO.checkFlightID(id);
+		int id = flightDAO.getFlightID();
+		int cId = flightDAO.checkFlightID(id);
 		System.out.print("Enter flight name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter flight number: ");
@@ -81,7 +83,7 @@ public class FlightController {
 		Flight updateFlight = new Flight(name, number);
 		FlightService.updateFlight(cId, updateFlight);
 		System.out.println("Flight Details Updated\n");
-		Flight foundFlight = FlightDAO.findById(cId);
+		Flight foundFlight = flightDAO.findById(cId);
 		System.out.println(foundFlight);
 
 	}

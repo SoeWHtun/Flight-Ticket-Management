@@ -3,10 +3,11 @@ package com.example.model;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
-import com.example.dao.CustomerDAO;
-import com.example.dao.FlightDAO;
-import com.example.dao.SchduleDAO;
-import com.example.dao.SeatDAO;
+import com.example.dao.flight.FlightDAOImpl;
+import com.example.dao.schedule.SchduleDaoImpl;
+
+import static com.example.dao.flight.FlightDAOImpl.flightDAO;
+import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
 public class Schedule {
     private int scheduleId;
@@ -19,7 +20,7 @@ public class Schedule {
 
     public Schedule(String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        this.scheduleId = SchduleDAO.getScheduleCount() + 1;
+        this.scheduleId = schduleDao.getScheduleCount() + 1;
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;
@@ -56,7 +57,7 @@ public class Schedule {
             int arrMinute = Integer.parseInt(scheduleRow[12]);
             String deptCity = scheduleRow[13];
             String arrCity = scheduleRow[14];
-            Flight nFlight = FlightDAO.findById(flightId);
+            Flight nFlight = flightDAO.findById(flightId);
             LocalDateTime deptDate = LocalDateTime.of(deptYear, deptMonth, deptDay, deptHour, deptMinute);
             LocalDateTime arrDate = LocalDateTime.of(arrYear, arrMonth, arrDay, arrHour, arrMinute);
             return new Schedule(scheduleId, title, nFlight, deptDate, arrDate, deptCity, arrCity);

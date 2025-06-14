@@ -1,4 +1,4 @@
-package com.example.dao;
+package com.example.dao.seat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,12 +6,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.model.Flight;
-
 import com.example.model.Seat;
 import com.example.util.FileUtil;
 
-public class SeatDAO {
+import static com.example.dao.seat.SeatDAO.SEAT_FILE;
+
+public class SeatDaoImpl {
 	private static Seat[] seatDB = new Seat[2000];
 	private static int seatCount = 0;
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -19,7 +19,7 @@ public class SeatDAO {
 
 	static {
 		String[] header = {"seatId","flightId","seatNumber"};
-		FileUtil.csvCreater("seat.csv",header);
+		FileUtil.csvCreater(SEAT_FILE,header);
 	}
 	public static int getSeatCSVId(){
 		List<Seat> seatList = getAllSeat();
@@ -32,7 +32,7 @@ public class SeatDAO {
 
 	}
 	public static List<Seat> getAllSeat(){
-		List<String[]> seatData = FileUtil.csvReader("seat.csv");
+		List<String[]> seatData = FileUtil.csvReader(SEAT_FILE);
 		List<Seat> seatList = toSeats(seatData);
 		return seatList;
 	}
@@ -56,7 +56,7 @@ public class SeatDAO {
 	public static void addSeat(Seat seat) {
 		seatCount++;
 		seat.setSeatId(getSeatCSVId());
-		FileUtil.csvWriter("seat.csv",seat.toArray());
+		FileUtil.csvWriter(SEAT_FILE,seat.toArray());
 
 	}
 

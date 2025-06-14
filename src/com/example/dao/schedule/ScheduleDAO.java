@@ -1,0 +1,8 @@
+package com.example.dao.schedule;
+
+import com.example.dao.AbstractDao;
+import com.example.model.Schedule;
+
+public interface ScheduleDAO extends AbstractDao<Schedule> {
+    public static final String SCHEDULE_FILE = "schedule.csv";
+}
