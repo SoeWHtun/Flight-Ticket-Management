@@ -3,7 +3,6 @@ package com.example.dao.flight;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 import com.example.dao.seat.SeatDaoImpl;
 import com.example.model.Booking;
@@ -23,26 +22,8 @@ public class FlightDAOImpl implements FlightDao {
 
     }
 
-    public int getFlightCSVId() {
-        List<Flight> flightList = getAll();
-        if (flightList.size() > 0) {
-            flightList.sort((c1, c2) -> Integer.compare(c1.getFlightId(), c2.getFlightId()));
-            return flightList.getLast().getFlightId() + 1;
-        } else {
-            return 1;
-        }
 
-    }
-    @Override
-    public List<Flight> toObjects(List<String[]> flightsData) {
-        List<Flight> flightList = new ArrayList<>();
-        Flight nFlight = new Flight();
-        for (String[] flightRow : flightsData) {
-            Flight flight = nFlight.toObj(flightRow);
-            flightList.add(flight);
-        }
-        return flightList;
-    }
+
 
 
     public void displayFlight() {

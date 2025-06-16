@@ -9,9 +9,8 @@ import java.util.List;
 import com.example.model.Seat;
 import com.example.util.FileUtil;
 
-import static com.example.dao.seat.SeatDAO.SEAT_FILE;
 
-public class SeatDaoImpl {
+public class SeatDaoImpl implements SeatDAO {
 	private static Seat[] seatDB = new Seat[2000];
 	private static int seatCount = 0;
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
@@ -19,7 +18,7 @@ public class SeatDaoImpl {
 
 	static {
 		String[] header = {"seatId","flightId","seatNumber"};
-		FileUtil.csvCreater(SEAT_FILE,header);
+		FileUtil.csvCreater(FILE_NAME,header);
 	}
 	public static int getSeatCSVId(){
 		List<Seat> seatList = getAllSeat();
@@ -32,7 +31,7 @@ public class SeatDaoImpl {
 
 	}
 	public static List<Seat> getAllSeat(){
-		List<String[]> seatData = FileUtil.csvReader(SEAT_FILE);
+		List<String[]> seatData = FileUtil.csvReader(FILE_NAME);
 		List<Seat> seatList = toSeats(seatData);
 		return seatList;
 	}
@@ -46,9 +45,7 @@ public class SeatDaoImpl {
 		return seatList;
 	}
 
-	public static Seat[] getSeatDB() {
-		return seatDB;
-	}
+
 
 	public static int getSeatCount() {
 		return seatCount;
@@ -57,11 +54,21 @@ public class SeatDaoImpl {
 	public static void addSeat(Seat seat) {
 		seatCount++;
 		seat.setSeatId(getSeatCSVId());
-		FileUtil.csvWriter(SEAT_FILE,seat.toArray());
+		FileUtil.csvWriter(FILE_NAME,seat.toArray());
 
 	}
 
-	public static Seat findById(int id) {
+	@Override
+	public Seat toObj(String[] row) {
+		return Seat.toObj(row);
+	}
+
+	@Override
+	public String getFileName() {
+		return FILE_NAME;
+	}
+
+	public Seat findById(int id) {
 		for (Seat seat : getAllSeat()) {
 			if (seat.getSeatId() == id) {
 				return seat;
@@ -86,7 +93,7 @@ public class SeatDaoImpl {
 		}
 	}
 
-	public static int getSeatID() {
+	public int getSeatID() {
 		int seatID;
 		try {
 			System.out.print("Enter seat ID: ");
@@ -101,7 +108,7 @@ public class SeatDaoImpl {
 		return seatID;
 	}
 
-	public static int checkSeatID(int id) {
+	public int checkSeatID(int id) {
 		int checkedId = 0;
 		try {
 			Seat checkSeat = findById(id);

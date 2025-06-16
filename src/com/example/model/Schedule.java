@@ -20,7 +20,7 @@ public class Schedule extends MasterData {
 
     public Schedule(String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        this.scheduleId = schduleDao.getScheduleCount() + 1;
+        this.scheduleId = schduleDao.getCount() + 1;
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;

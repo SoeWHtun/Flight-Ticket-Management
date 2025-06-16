@@ -3,18 +3,16 @@ package com.example.dao.customer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.example.dao.AbstractDao;
+
+
 
 import com.example.dao.booking.BookingDao;
 import com.example.model.Customer;
 import com.example.util.FileUtil;
 
-import static com.example.dao.customer.CustomerDao.FILE_NAME;
 
-public class CustomerDaoImpl implements AbstractDao<Customer> {
+public class CustomerDaoImpl implements CustomerDao {
     public static CustomerDaoImpl customerDao = new CustomerDaoImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -57,40 +55,6 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
         return checkedId;
     }
 
-    @Override
-    public void create(Customer customer) {
-
-        customer.setId(getCSVId());
-        FileUtil.csvWriter(FILE_NAME, customer.toArray());
-    }
-
-    @Override
-    public Customer findById(int id) {
-        for (Customer customer : getAll()) {
-            if (customer.getId() == id) {
-                return customer;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void update(int id, Customer customer) {
-        FileUtil.updateRecordById(FILE_NAME, id + "", customer.toArray());
-    }
-
-    @Override
-    public void delete(int id) {
-        FileUtil.deleteRecordById(FILE_NAME, id + "");
-    }
-
-    @Override
-    public List<Customer> getAll() {
-        List<String[]> customersData = FileUtil.csvReader(FILE_NAME);
-        List<Customer> customerList = toObjects(customersData);
-        return customerList;
-    }
 
     @Override
     public Customer toObj(String[] row) {
@@ -99,6 +63,6 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
 
     @Override
     public String getFileName() {
-        return BookingDao.FILE_NAME;
+        return FILE_NAME;
     }
 }

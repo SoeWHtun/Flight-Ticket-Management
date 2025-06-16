@@ -15,27 +15,12 @@ public class SchduleDaoImpl implements ScheduleDAO {
     static {
         String[] header = {"scheduleId", "scheduleTitle", "flightId", "depatureDay", "depatureMonth", "depatureYear", "depatureHour",
                 "depatureMinute", "arrivalDay", "arrivalMonth", "arrivalYear", "arrivalHour", "arrivalMinute", "depatureCity", "arrivalCity"};
-        FileUtil.csvCreater(SCHEDULE_FILE, header);
+        FileUtil.csvCreater(FILE_NAME, header);
     }
 
-    public int getScheduleCount() {
-        int count = 0;
-        for (Schedule schedule : getAll()) {
-            count++;
-        }
-        return count;
-    }
 
-    public int getScheduleCSVId() {
-        List<Schedule> scheduleList = getAll();
-        if (scheduleList.size() > 0) {
-            scheduleList.sort((c1, c2) -> Integer.compare(c1.getScheduleId(), c2.getScheduleId()));
-            return scheduleList.getLast().getScheduleId() + 1;
-        } else {
-            return 1;
-        }
 
-    }
+
 
     public Schedule findByRoute(String dept, String arrival) {
         for (Schedule schedule : getAll()) {
@@ -90,6 +75,6 @@ public class SchduleDaoImpl implements ScheduleDAO {
 
     @Override
     public String getFileName() {
-        return getFileName();
+        return FILE_NAME;
     }
 }

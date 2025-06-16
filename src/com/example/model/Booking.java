@@ -13,6 +13,7 @@ public class Booking extends MasterData{
     private Schedule schedule;
     private Seat seat;
     private Boolean isAvailable;
+    static SeatDaoImpl seatDao = new SeatDaoImpl();
     public Booking(){
 
     }
@@ -45,7 +46,7 @@ public class Booking extends MasterData{
         Customer nCustomer = customerDao.findById(customerId);
         Flight nFlight = flightDAO.findById(flightId);
         Schedule nSchedule = schduleDao.findById(scheduleId);
-        Seat nSeat = SeatDaoImpl.findById(seatId);
+        Seat nSeat = seatDao.findById(seatId);
         return new Booking(bookingId, nCustomer, nFlight, nSchedule, nSeat);
     }
 

@@ -19,7 +19,7 @@ import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 public class BookingController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+    static SeatDaoImpl seatDao = new SeatDaoImpl();
 	public void call() throws NumberFormatException, IOException {
 		int choice;
 		do {
@@ -62,13 +62,13 @@ public class BookingController {
 		int cSeatId;
 		boolean seatAvailable;
 		do {
-			seatId = SeatDaoImpl.getSeatID();
-			cSeatId = SeatDaoImpl.checkSeatID(seatId);
+			seatId = seatDao.getSeatID();
+			cSeatId = seatDao.checkSeatID(seatId);
 			seatAvailable = bookingDao.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = customerDao.findById(cCustomerId);
 		Schedule schedule = schduleDao.findById(cId);
-		Seat seat = SeatDaoImpl.findById(cSeatId);
+		Seat seat = seatDao.findById(cSeatId);
 		Booking updateBooking = new Booking(customer, schedule.getFlight(), schedule, seat);
 		BookingService.updateBooking(cBookingId, updateBooking);
 		System.out.println("\nBooking details updated\n");
@@ -115,12 +115,12 @@ public class BookingController {
 		boolean seatAvailable;
 		do {
 
-			seatId = SeatDaoImpl.getSeatID();
-			cSeatId = SeatDaoImpl.checkSeatID(seatId);
+			seatId = seatDao.getSeatID();
+			cSeatId = seatDao.checkSeatID(seatId);
 			seatAvailable = bookingDao.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = customerDao.findById(cCustomerId);
-		Seat seat = SeatDaoImpl.findById(cSeatId);
+		Seat seat = seatDao.findById(cSeatId);
 		Booking newBooking = new Booking(customer, foundSchedule.getFlight(), foundSchedule, seat);
 		BookingService.createBooking(newBooking);
 		System.out.println("\nNew Booking Created\n");
@@ -140,13 +140,13 @@ public class BookingController {
 		boolean seatAvailable;
 		do {
 
-			seatId = SeatDaoImpl.getSeatID();
-			cSeatId = SeatDaoImpl.checkSeatID(seatId);
+			seatId = seatDao.getSeatID();
+			cSeatId = seatDao.checkSeatID(seatId);
 			seatAvailable = bookingDao.checkAvailableById(cSeatId);
 		} while (!seatAvailable);
 		Customer customer = customerDao.findById(cCustomerId);
 		Schedule schedule = schduleDao.findById(cId);
-		Seat seat = SeatDaoImpl.findById(cSeatId);
+		Seat seat = seatDao.findById(cSeatId);
 		Booking newBooking = new Booking(customer, schedule.getFlight(), schedule, seat);
 		BookingService.createBooking(newBooking);
 		System.out.println("\nNew Booking Created\n");
