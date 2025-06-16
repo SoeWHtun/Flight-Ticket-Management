@@ -11,8 +11,6 @@ import com.example.util.FileUtil;
 
 
 public class SeatDaoImpl implements SeatDAO {
-	private static Seat[] seatDB = new Seat[2000];
-	private static int seatCount = 0;
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 

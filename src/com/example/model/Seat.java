@@ -1,25 +1,20 @@
 package com.example.model;
-
-import com.example.dao.seat.SeatDAO;
-import com.example.dao.seat.SeatDaoImpl;
-
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class Seat extends MasterData {
-	private int seatId;
 	private String seatNumber;
 	private Flight flight;
 	public Seat(){
 
 	}
 
-	public Seat(Flight flight, String seatNumber) {
-		super.setId(SeatDaoImpl.getSeatCount()+1);
+	public Seat(int id, Flight flight, String seatNumber) {
+		this.setId(id);
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
-	public Seat(int seatId,Flight flight, String seatNumber) {
-		super.setId(getId());
+
+	public Seat(Flight flight, String seatNumber) {
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
@@ -33,11 +28,11 @@ public class Seat extends MasterData {
 	}
 
 	public int getSeatId() {
-		return seatId;
+		return getId();
 	}
 
 	public void setSeatId(int seatId) {
-		this.seatId = seatId;
+		super.setId(seatId);
 	}
 
 	public String getSeatNumber() {
@@ -57,7 +52,7 @@ public class Seat extends MasterData {
 	}
     public String[] toArray(){
 		return new String[]{
-			this.seatId+"",
+			this.getId()+"",
 			this.flight.getId()+"",
 				this.seatNumber
 		};
