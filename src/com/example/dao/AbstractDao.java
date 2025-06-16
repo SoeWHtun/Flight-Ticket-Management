@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import com.example.model.Customer;
 import com.example.model.MasterData;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +11,11 @@ public interface AbstractDao<T extends MasterData> {
     public void update(int id, T object);
     public void delete(int id);
     public List<T> getAll();
+    public List<T> toObjects(List<String[]> objectData);
 
     default int getCSVId(){
         List<T> objectList = getAll();
-        if(objectList.size()>0){
+        if(!objectList.isEmpty()){
             objectList.sort((c1, c2)-> Integer.compare(c1.getId(), c2.getId()));
             return objectList.getLast().getId() + 1;}
         else{
@@ -32,7 +34,7 @@ public interface AbstractDao<T extends MasterData> {
     default List<T> toObjects(List<String[]> objectData) {
         List<T> objectList = new ArrayList<>();
         for (String[] dataRow : objectData) {
-            T masterObj =(T) MasterData.toObj(dataRow);
+            T masterObj =(T) MasterData.toO bj(dataRow);
             objectList.add(masterObj);
         }
         return objectList;

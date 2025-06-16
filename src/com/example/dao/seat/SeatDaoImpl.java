@@ -38,8 +38,9 @@ public class SeatDaoImpl {
 	}
 	private static List<Seat> toSeats(List<String[]> seatsData) {
 		List<Seat> seatList = new ArrayList<>();
+		Seat nSeat = new Seat();
 		for(String[] seatRow : seatsData) {
-			Seat seat = Seat.toObj(seatRow);
+			Seat seat = nSeat.toObj(seatRow);
 			seatList.add(seat);
 		}
 		return seatList;

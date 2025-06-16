@@ -20,11 +20,12 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 		String[] header = {"Id", "customerId", "flightId", "scheduleId","seatId"};
 		FileUtil.csvCreater(FILE_NAME,header);
 	}
-
-	private static List<Booking> toBookings(List<String[]> bookingsData) {
+    @Override
+	public List<Booking> toObjects(List<String[]> bookingsData) {
 		List<Booking> bookingList = new ArrayList<>();
+		Booking nBooking = new Booking();
 		for(String[] bookingRow : bookingsData) {
-			Booking booking = Booking.toObj(bookingRow);
+			Booking booking = nBooking.toObj(bookingRow);
 			bookingList.add(booking);
 		}
 		return bookingList;
@@ -111,7 +112,7 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 	@Override
 	public List<Booking> getAll() {
 		List<String[]> bookingData = FileUtil.csvReader(FILE_NAME);
-		List<Booking> bookingList = toBookings(bookingData);
+		List<Booking> bookingList = toObjects(bookingData);
 		return bookingList;
 	}
 }

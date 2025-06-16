@@ -13,6 +13,9 @@ public class Booking extends MasterData{
     private Schedule schedule;
     private Seat seat;
     private Boolean isAvailable;
+    public Booking(){
+
+    }
 
     public Booking(Customer customer, Flight flight, Schedule schedule, Seat seat) {
         super.setId(bookingDao.getCount() + 1);
@@ -31,8 +34,8 @@ public class Booking extends MasterData{
         this.seat = seat;
         this.isAvailable = false;
     }
-
-    public static Booking toObj(String[] bookingRow) {
+    @Override
+    public Booking toObj(String[] bookingRow) {
         int bookingId = Integer.parseInt(bookingRow[0]);
         int customerId = Integer.parseInt(bookingRow[1]);
         int flightId = Integer.parseInt(bookingRow[2]);

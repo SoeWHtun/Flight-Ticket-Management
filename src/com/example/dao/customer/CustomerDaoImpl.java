@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.dao.AbstractDao;
+
 import com.example.model.Customer;
 import com.example.util.FileUtil;
 
@@ -87,6 +88,17 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
     public List<Customer> getAll() {
         List<String[]> customersData = FileUtil.csvReader(FILE_NAME);
         List<Customer> customerList = toObjects(customersData);
+        return customerList;
+    }
+
+    @Override
+    public List<Customer> toObjects(List<String[]> objectData) {
+        List<Customer> customerList = new ArrayList<>();
+        Customer nCustomer = new Customer();
+        for (String[] customerRow : objectData) {
+            Customer customer = nCustomer.toObj(customerRow);
+            customerList.add(customer);
+        }
         return customerList;
     }
 }

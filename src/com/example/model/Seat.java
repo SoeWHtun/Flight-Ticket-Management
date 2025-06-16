@@ -5,10 +5,13 @@ import com.example.dao.seat.SeatDaoImpl;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
-public class Seat {
+public class Seat extends MasterData {
 	private int seatId;
 	private String seatNumber;
 	private Flight flight;
+	public Seat(){
+
+	}
 
 	public Seat(Flight flight, String seatNumber) {
 		this.seatId = SeatDaoImpl.getSeatCount() + 1;
@@ -20,7 +23,8 @@ public class Seat {
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
-	public static Seat toObj(String[] seatRow){
+	@Override
+	public Seat toObj(String[] seatRow){
 		int seatId = Integer.parseInt(seatRow[0]);
 		int flightId = Integer.parseInt(seatRow[1]);
 		String seatNumber = seatRow[2];

@@ -37,11 +37,12 @@ public class FlightDAOImpl implements AbstractDao<Flight> {
         }
 
     }
-
-    private static List<Flight> toFlights(List<String[]> flightsData) {
+    @Override
+    public List<Flight> toObjects(List<String[]> flightsData) {
         List<Flight> flightList = new ArrayList<>();
+        Flight nFlight = new Flight();
         for (String[] flightRow : flightsData) {
-            Flight flight = Flight.toObj(flightRow);
+            Flight flight = nFlight.toObj(flightRow);
             flightList.add(flight);
         }
         return flightList;
@@ -150,7 +151,7 @@ public class FlightDAOImpl implements AbstractDao<Flight> {
     @Override
     public List<Flight> getAll() {
         List<String[]> flightData = FileUtil.csvReader(FLIGHT_FILE);
-        List<Flight> flightList = toFlights(flightData);
+        List<Flight> flightList = toObjects(flightData);
         return flightList;
     }
 }

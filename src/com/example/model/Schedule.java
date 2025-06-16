@@ -9,7 +9,7 @@ import com.example.dao.schedule.SchduleDaoImpl;
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
-public class Schedule {
+public class Schedule extends MasterData {
     private int scheduleId;
     private String title;
     private Flight flight;
@@ -40,7 +40,12 @@ public class Schedule {
         this.arrivalCity = arrivalCity;
     }
 
-    public static Schedule toObj(String[] scheduleRow){
+    public Schedule() {
+
+    }
+
+    @Override
+    public Schedule toObj(String[] scheduleRow){
         try {
             int scheduleId = Integer.parseInt(scheduleRow[0]);
             String title = scheduleRow[1];

@@ -25,13 +25,13 @@ public class Customer extends MasterData{
 		this.email=email;
 	}
 
-	public static Customer toObj(String[] customerRow) {
-		Customer customer = new Customer();
-		customer.setId(Integer.parseInt(customerRow[0]));
-		customer.name = customerRow[1];
-		customer.phone = customerRow[2];
-		customer.email = customerRow[3];
-		return customer;
+	@Override
+	public Customer toObj(String[] customerRow) {
+		int id = Integer.parseInt(customerRow[0]);
+		String name = customerRow[1];
+		String phone = customerRow[2];
+		String email = customerRow[3];
+		return new Customer(id,name,phone,email);
 	}
 
 	public String getName() {

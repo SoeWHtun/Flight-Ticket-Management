@@ -39,11 +39,12 @@ public class SchduleDaoImpl implements AbstractDao<Schedule> {
         }
 
     }
-
-    private static List<Schedule> toSchedules(List<String[]> schedulesData) {
+    @Override
+    public List<Schedule> toObjects(List<String[]> schedulesData) {
         List<Schedule> scheduleList = new ArrayList<>();
+        Schedule nSchedule = new Schedule();
         for (String[] scheduleRow : schedulesData) {
-            Schedule schedule = Schedule.toObj(scheduleRow);
+            Schedule schedule = nSchedule.toObj(scheduleRow);
             scheduleList.add(schedule);
         }
         return scheduleList;
@@ -131,7 +132,7 @@ public class SchduleDaoImpl implements AbstractDao<Schedule> {
     @Override
     public List<Schedule> getAll() {
         List<String[]> scheduleData = FileUtil.csvReader(SCHEDULE_FILE);
-        List<Schedule> scheduleList = toSchedules(scheduleData);
+        List<Schedule> scheduleList = toObjects(scheduleData);
         return scheduleList;
     }
 }
