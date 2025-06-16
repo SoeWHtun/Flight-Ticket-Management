@@ -11,8 +11,5 @@ public abstract class MasterData<T> {
         this.id = id;
     }
 
-    public MasterData toObj(String[] row) {
-        return null;
-    }
-
+    public abstract String[] toArray();
 }

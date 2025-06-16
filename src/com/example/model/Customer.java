@@ -25,8 +25,7 @@ public class Customer extends MasterData{
 		this.email=email;
 	}
 
-	@Override
-	public Customer toObj(String[] customerRow) {
+	public static Customer toObj(String[] customerRow) {
 		int id = Integer.parseInt(customerRow[0]);
 		String name = customerRow[1];
 		String phone = customerRow[2];

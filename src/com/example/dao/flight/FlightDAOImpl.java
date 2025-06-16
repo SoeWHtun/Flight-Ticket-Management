@@ -5,25 +5,21 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.example.dao.AbstractDao;
 import com.example.dao.seat.SeatDaoImpl;
 import com.example.model.Booking;
 import com.example.model.Flight;
 import com.example.model.Seat;
 import com.example.util.FileUtil;
-
 import static com.example.dao.booking.BookingDaoImpl.bookingDao;
-import static com.example.dao.flight.FlightDao.FLIGHT_FILE;
 
-public class FlightDAOImpl implements AbstractDao<Flight> {
+public class FlightDAOImpl implements FlightDao {
     public static FlightDAOImpl flightDAO = new FlightDAOImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
     static {
         String[] header = {"FlightId", "FlightName", "FlightNumber"};
-        FileUtil.csvCreater(FLIGHT_FILE, header);
+        FileUtil.csvCreater(FILE_NAME, header);
 
     }
 
@@ -119,39 +115,12 @@ public class FlightDAOImpl implements AbstractDao<Flight> {
         return checkedId;
     }
 
-
-    @Override
-    public void create(Flight flight) {
-
-        flight.setFlightId(getFlightCSVId());
-        FileUtil.csvWriter(FLIGHT_FILE, flight.toArray());
+    public Flight toObj(String[] row) {
+        return Flight.toObj(row);
     }
 
     @Override
-    public Flight findById(int id) {
-        for (Flight flight : getAll()) {
-            if (flight.getFlightId() == id) {
-                return flight;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void update(int id, Flight flight) {
-        FileUtil.updateRecordById(FLIGHT_FILE, id + "", flight.toArray());
-    }
-
-    @Override
-    public void delete(int id) {
-        FileUtil.deleteRecordById(FLIGHT_FILE, id + "");
-    }
-
-    @Override
-    public List<Flight> getAll() {
-        List<String[]> flightData = FileUtil.csvReader(FLIGHT_FILE);
-        List<Flight> flightList = toObjects(flightData);
-        return flightList;
+    public String getFileName() {
+        return FILE_NAME;
     }
 }

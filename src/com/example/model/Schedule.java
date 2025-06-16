@@ -44,8 +44,7 @@ public class Schedule extends MasterData {
 
     }
 
-    @Override
-    public Schedule toObj(String[] scheduleRow){
+    public static Schedule toObj(String[] scheduleRow){
         try {
             int scheduleId = Integer.parseInt(scheduleRow[0]);
             String title = scheduleRow[1];

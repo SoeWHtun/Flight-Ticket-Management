@@ -3,21 +3,18 @@ package com.example.dao.schedule;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.example.dao.AbstractDao;
 import com.example.model.Schedule;
 import com.example.util.FileUtil;
-import static com.example.dao.schedule.ScheduleDAO.SCHEDULE_FILE;
 
-public class SchduleDaoImpl implements AbstractDao<Schedule> {
+public class SchduleDaoImpl implements ScheduleDAO {
     public static SchduleDaoImpl schduleDao = new SchduleDaoImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
     static {
-        String[] header = {"scheduleId", "scheduleTitle", "flightId", "depatureDay", "depatureMonth", "depatureYear", "depatureHour", "depatureMinute", "arrivalDay", "arrivalMonth", "arrivalYear", "arrivalHour", "arrivalMinute", "depatureCity", "arrivalCity"};
+        String[] header = {"scheduleId", "scheduleTitle", "flightId", "depatureDay", "depatureMonth", "depatureYear", "depatureHour",
+                "depatureMinute", "arrivalDay", "arrivalMonth", "arrivalYear", "arrivalHour", "arrivalMinute", "depatureCity", "arrivalCity"};
         FileUtil.csvCreater(SCHEDULE_FILE, header);
     }
 
@@ -39,17 +36,6 @@ public class SchduleDaoImpl implements AbstractDao<Schedule> {
         }
 
     }
-    @Override
-    public List<Schedule> toObjects(List<String[]> schedulesData) {
-        List<Schedule> scheduleList = new ArrayList<>();
-        Schedule nSchedule = new Schedule();
-        for (String[] scheduleRow : schedulesData) {
-            Schedule schedule = nSchedule.toObj(scheduleRow);
-            scheduleList.add(schedule);
-        }
-        return scheduleList;
-    }
-
 
     public Schedule findByRoute(String dept, String arrival) {
         for (Schedule schedule : getAll()) {
@@ -97,42 +83,13 @@ public class SchduleDaoImpl implements AbstractDao<Schedule> {
         return checkedId;
     }
 
-    public static void updateSchedule(int id, Schedule updateSchedule) {
-        FileUtil.updateRecordById("schedule.csv", id + "", updateSchedule.toArray());
+    @Override
+    public Schedule toObj(String[] row) {
+        return Schedule.toObj(row);
     }
 
     @Override
-    public void create(Schedule schedule) {
-
-        schedule.setScheduleId(getScheduleCSVId());
-        FileUtil.csvWriter(SCHEDULE_FILE, schedule.toArray());
-    }
-
-    @Override
-    public Schedule findById(int id) {
-        for (Schedule schedule : getAll()) {
-            if (schedule.getScheduleId() == id) {
-                return schedule;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void update(int id, Schedule schedule) {
-        FileUtil.updateRecordById(SCHEDULE_FILE, id + "", schedule.toArray());
-    }
-
-    @Override
-    public void delete(int id) {
-        FileUtil.deleteRecordById(SCHEDULE_FILE, id + "");
-    }
-
-    @Override
-    public List<Schedule> getAll() {
-        List<String[]> scheduleData = FileUtil.csvReader(SCHEDULE_FILE);
-        List<Schedule> scheduleList = toObjects(scheduleData);
-        return scheduleList;
+    public String getFileName() {
+        return getFileName();
     }
 }

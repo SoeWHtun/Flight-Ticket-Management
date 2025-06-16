@@ -1,6 +1,5 @@
 package com.example.model;
 
-import com.example.dao.flight.FlightDAOImpl;
 import com.example.dao.seat.SeatDaoImpl;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
@@ -23,8 +22,8 @@ public class Seat extends MasterData {
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
-	@Override
-	public Seat toObj(String[] seatRow){
+
+	public static Seat toObj(String[] seatRow){
 		int seatId = Integer.parseInt(seatRow[0]);
 		int flightId = Integer.parseInt(seatRow[1]);
 		String seatNumber = seatRow[2];

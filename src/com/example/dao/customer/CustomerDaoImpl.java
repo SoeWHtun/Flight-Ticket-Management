@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.example.dao.AbstractDao;
 
+import com.example.dao.booking.BookingDao;
 import com.example.model.Customer;
 import com.example.util.FileUtil;
 
@@ -92,13 +93,12 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
     }
 
     @Override
-    public List<Customer> toObjects(List<String[]> objectData) {
-        List<Customer> customerList = new ArrayList<>();
-        Customer nCustomer = new Customer();
-        for (String[] customerRow : objectData) {
-            Customer customer = nCustomer.toObj(customerRow);
-            customerList.add(customer);
-        }
-        return customerList;
+    public Customer toObj(String[] row) {
+        return Customer.toObj(row);
+    }
+
+    @Override
+    public String getFileName() {
+        return BookingDao.FILE_NAME;
     }
 }

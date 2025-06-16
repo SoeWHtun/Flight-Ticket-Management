@@ -1,5 +1,6 @@
 package com.example.dao.booking;
 
+import java.awt.print.Book;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -82,37 +83,12 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 	}
 
 	@Override
-	public void create(Booking booking) {
-
-		booking.setId(getCSVId());
-		FileUtil.csvWriter(FILE_NAME, booking.toArray());
+	public Booking toObj(String[] row) {
+		return Booking.toObj(row);
 	}
 
 	@Override
-	public Booking findById(int id) {
-		for (Booking booking : getAll()) {
-			if (booking.getId() == id) {
-				return booking;
-			}
-		}
-
-		return null;
-	}
-
-	@Override
-	public void update(int id, Booking booking) {
-		FileUtil.updateRecordById(FILE_NAME,id+"",booking.toArray());
-	}
-
-	@Override
-	public void delete(int id) {
-		FileUtil.deleteRecordById(FILE_NAME,id+"");
-	}
-
-	@Override
-	public List<Booking> getAll() {
-		List<String[]> bookingData = FileUtil.csvReader(FILE_NAME);
-		List<Booking> bookingList = toObjects(bookingData);
-		return bookingList;
+	public String getFileName() {
+		return FILE_NAME;
 	}
 }

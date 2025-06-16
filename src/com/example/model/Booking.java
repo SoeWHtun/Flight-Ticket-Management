@@ -34,8 +34,9 @@ public class Booking extends MasterData{
         this.seat = seat;
         this.isAvailable = false;
     }
-    @Override
-    public Booking toObj(String[] bookingRow) {
+
+
+    public static Booking toObj(String[] bookingRow) {
         int bookingId = Integer.parseInt(bookingRow[0]);
         int customerId = Integer.parseInt(bookingRow[1]);
         int flightId = Integer.parseInt(bookingRow[2]);

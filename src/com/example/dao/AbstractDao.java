@@ -1,17 +1,14 @@
 package com.example.dao;
 
-import com.example.model.Customer;
 import com.example.model.MasterData;
+import com.example.util.FileUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public interface AbstractDao<T extends MasterData> {
-    public void create(T object);
-    public T findById(int id);
-    public void update(int id, T object);
-    public void delete(int id);
-    public List<T> getAll();
-    public List<T> toObjects(List<String[]> objectData);
+    public T toObj(String[] row);
+    public String getFileName();
 
     default int getCSVId(){
         List<T> objectList = getAll();
@@ -21,6 +18,35 @@ public interface AbstractDao<T extends MasterData> {
         else{
             return 1;
         }
+    }
+
+    default void create(T obj) {
+        obj.setId(getCSVId());
+        FileUtil.csvWriter(getFileName(), obj.toArray());
+    }
+
+    default T findById(int id) {
+        for (T obj : getAll()) {
+            if (obj.getId() == id) {
+                return obj;
+            }
+        }
+
+        return null;
+    }
+
+    default void update(int id, T updateObj) {
+        FileUtil.updateRecordById(getFileName(),id+"",updateObj.toArray());
+    }
+
+    default void delete(int id) {
+        FileUtil.deleteRecordById(getFileName(),id+"");
+    }
+
+    default List<T> getAll() {
+        List<String[]> objectDatas = FileUtil.csvReader(getFileName());
+        List<T> objList = toObjects(objectDatas);
+        return objList;
     }
 
     default int getCount() {
@@ -34,7 +60,7 @@ public interface AbstractDao<T extends MasterData> {
     default List<T> toObjects(List<String[]> objectData) {
         List<T> objectList = new ArrayList<>();
         for (String[] dataRow : objectData) {
-            T masterObj =(T) MasterData.toO bj(dataRow);
+            T masterObj = toObj(dataRow);
             objectList.add(masterObj);
         }
         return objectList;

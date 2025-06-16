@@ -23,8 +23,7 @@ public class Flight extends MasterData{
 
 	}
 
-	@Override
-	public  Flight toObj(String[] flightRow){
+	public static Flight toObj(String[] flightRow){
 		int flightId = Integer.parseInt(flightRow[0]);
 		String flightName = flightRow[1];
 		String flightNumber = flightRow[2];
