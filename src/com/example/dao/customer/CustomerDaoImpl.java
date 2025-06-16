@@ -89,4 +89,9 @@ public class CustomerDaoImpl implements AbstractDao<Customer> {
         List<Customer> customerList = toObjects(customersData);
         return customerList;
     }
+
+    @Override
+    public Customer toObjects(String[] dataRow) {
+        return Customer.toObj(dataRow);
+    }
 }

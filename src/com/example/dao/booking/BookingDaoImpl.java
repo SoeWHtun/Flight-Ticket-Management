@@ -114,4 +114,9 @@ public class BookingDaoImpl implements AbstractDao<Booking> {
 		List<Booking> bookingList = toBookings(bookingData);
 		return bookingList;
 	}
+
+	@Override
+	public Booking toObjects(String[] dataRow) {
+		return Booking.toObj(dataRow);
+	}
 }
