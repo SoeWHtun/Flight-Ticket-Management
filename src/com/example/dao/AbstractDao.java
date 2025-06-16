@@ -1,5 +1,6 @@
 package com.example.dao;
 
+import com.example.expection.ResourceNotFountException;
 import com.example.model.MasterData;
 import com.example.util.FileUtil;
 
@@ -31,15 +32,16 @@ public interface AbstractDao<T extends MasterData> {
                 return obj;
             }
         }
-
-        return null;
+        throw new ResourceNotFountException("Not Fount Id at "+getFileName()+" for Id: "+ id);
     }
 
     default void update(int id, T updateObj) {
+        findById(id);
         FileUtil.updateRecordById(getFileName(),id+"",updateObj.toArray());
     }
 
     default void delete(int id) {
+        findById(id);
         FileUtil.deleteRecordById(getFileName(),id+"");
     }
 
