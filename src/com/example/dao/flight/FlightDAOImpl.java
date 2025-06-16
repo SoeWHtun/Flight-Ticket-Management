@@ -40,7 +40,7 @@ public class FlightDAOImpl implements FlightDao {
             Flight flight = flights;
             boolean hasAvailableSeat = false;
             for (Seat seat : SeatDaoImpl.getAllSeat()) {
-                if (seat.getFlight().getFlightId() == flight.getFlightId()) {
+                if (seat.getFlight().getId() == flight.getId()) {
                     boolean isBooked = false;
                     for (Booking booking : bookingDao.getAll()) {
                         if (booking.getSeat().getSeatId() == seat.getSeatId()
@@ -88,7 +88,7 @@ public class FlightDAOImpl implements FlightDao {
         int checkedId = 0;
         try {
             Flight checkFlight = findById(id);
-            checkedId = checkFlight.getFlightId();
+            checkedId = checkFlight.getId();
         } catch (NullPointerException ex) {
             System.out.print("\nNo Flight found!Please enter valid ID\n");
             return checkFlightID(getFlightID());

@@ -92,7 +92,7 @@ public class Booking extends MasterData{
     }
 
     public String[] toArray() {
-        return new String[]{this.customer.getId() + "", this.flight.getFlightId() + "", this.schedule.getScheduleId() + "", this.seat.getSeatId() + ""};
+        return new String[]{this.customer.getId() + "", this.flight.getId() + "", this.schedule.getScheduleId() + "", this.seat.getSeatId() + ""};
     }
 
     @Override

@@ -4,17 +4,16 @@ package com.example.model;
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class Flight extends MasterData{
-	private int flightId;
 	private String flightName;
 	private String flightNumber;
 
 	public Flight(String flightName, String flightNumber) {
-		this.flightId = flightDAO.getCount() + 1;
+		super.setId(flightDAO.getCount()+1);
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}
 	public Flight(int flightId,String flightName, String flightNumber) {
-		this.flightId = flightId;
+		super.setId(getId());
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}
@@ -30,13 +29,7 @@ public class Flight extends MasterData{
 		return new Flight(flightId,flightName,flightNumber);
 	}
 
-	public int getFlightId() {
-		return flightId;
-	}
 
-	public void setFlightId(int flightId) {
-		this.flightId = flightId;
-	}
 
 	public String getFlightName() {
 		return flightName;
@@ -54,11 +47,11 @@ public class Flight extends MasterData{
 		this.flightNumber = flightNumber;
 	}
 
-	public String[] toArray(){return new String[]{this.flightId+"",this.flightName,this.flightNumber};}
+	public String[] toArray(){return new String[]{this.getId()+"",this.flightName,this.flightNumber};}
 
 	@Override
 	public String toString() {
-		String str = "Flight Id: " + getFlightId() + "\nFlight name: " + getFlightName() + "\nFlight number: "
+		String str = "Flight Id: " + getId() + "\nFlight name: " + getFlightName() + "\nFlight number: "
 				+ getFlightNumber() + "\n";
 		return str;
 	}

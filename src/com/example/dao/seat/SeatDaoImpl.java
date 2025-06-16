@@ -80,7 +80,7 @@ public class SeatDaoImpl implements SeatDAO {
 
 	public static void displayByFlightId(int id) {
 		for (Seat seat : getAllSeat()) {
-			if (seat.getFlight().getFlightId() == id) {
+			if (seat.getFlight().getId() == id) {
 				System.out.println(seat);
 			}
 		}

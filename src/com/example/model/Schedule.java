@@ -20,7 +20,7 @@ public class Schedule extends MasterData {
 
     public Schedule(String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        this.scheduleId = schduleDao.getCount() + 1;
+        super.setId(schduleDao.getCount()+1);
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;
@@ -31,7 +31,7 @@ public class Schedule extends MasterData {
 
     public Schedule(int scheduleId, String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        this.scheduleId = scheduleId;
+        super.setId(getId());
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;
@@ -129,13 +129,13 @@ public class Schedule extends MasterData {
     }
 
     public String[] toArray() {
-        return new String[]{this.scheduleId + "", this.title + "", this.flight.getFlightId() + "", this.depatureDate.getDayOfMonth() + "", this.depatureDate.getMonthValue() + "", this.depatureDate.getYear() + "",this.depatureDate.getHour() + "",this.depatureDate.getMinute() + "", this.arrivalDate.getDayOfMonth() + "", this.arrivalDate.getMonthValue() + "", this.arrivalDate.getYear() + "",this.arrivalDate.getHour() + "",this.arrivalDate.getMinute() + "", this.depatureCity, this.arrivalCity};
+        return new String[]{this.scheduleId + "", this.title + "", this.flight.getId() + "", this.depatureDate.getDayOfMonth() + "", this.depatureDate.getMonthValue() + "", this.depatureDate.getYear() + "",this.depatureDate.getHour() + "",this.depatureDate.getMinute() + "", this.arrivalDate.getDayOfMonth() + "", this.arrivalDate.getMonthValue() + "", this.arrivalDate.getYear() + "",this.arrivalDate.getHour() + "",this.arrivalDate.getMinute() + "", this.depatureCity, this.arrivalCity};
     }
 
     @Override
     public String toString() {
         String str = "\nSchedule ID: " + getScheduleId() + "\nSchedule Title: " + getTitle() + "\nFlight ID: "
-                + getFlight().getFlightId() + "\nFlight Name: " + getFlight().getFlightName() + "\nFlight Number: "
+                + getFlight().getId() + "\nFlight Name: " + getFlight().getFlightName() + "\nFlight Number: "
                 + getFlight().getFlightNumber() + "\nDepature Date: " + getDepatureDate() + "\nArrival Date: "
                 + getArrivalDate() + "\nDepature City: " + getDepatureCity() + "\nArrival City: " + getArrivalCity()
                 + "\n";
