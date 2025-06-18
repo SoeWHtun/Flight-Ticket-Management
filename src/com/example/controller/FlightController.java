@@ -4,19 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import com.example.dao.flight.FlightDAOImpl;
+
 
 import com.example.model.Flight;
 
+import com.example.model.Seat;
 import com.example.service.FlightService;
 import com.example.service.SeatService;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
+import static com.example.dao.seat.SeatDaoImpl.seatDao;
 
 public class FlightController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-	public static FlightService flightService = new FlightService();
+
 
 	public void call() throws NumberFormatException, IOException {
 		int choice;
@@ -49,33 +51,38 @@ public class FlightController {
 	}
 
 	private void viewAvailable() {
-		flightDAO.displayFlightwithSeat();
+		FlightService.displayFlightwithSeat();
 	}
 
 	private void deleteFlight() throws IOException {
-		int id = flightDAO.getFlightID();
-		int cId = flightDAO.checkFlightID(id);
+		int id = FlightService.getFlightID();
+		int cId = FlightService.checkFlightID(id);
 		flightDAO.delete(cId);
-		flightDAO.displayFlight();
+		for(Seat seat : seatDao.getAll()){
+			if (seat.getFlight().getId() == id) {
+				seatDao.delete(seat.getId());
+			}
+		}
+		FlightService.displayFlight();
 	}
 
 	private void viewAllFlight() {
-		flightDAO.displayFlight();
+		FlightService.displayFlight();
 
 	}
 
 	private void findById() throws IOException {
 
-		int id = flightDAO.getFlightID();
-		int cId = flightDAO.checkFlightID(id);
+		int id = FlightService.getFlightID();
+		int cId = FlightService.checkFlightID(id);
 		Flight foundFlight = flightDAO.findById(cId);
 		System.out.println(foundFlight);
 	}
 
 	private void editFlight() throws IOException {
 
-		int id = flightDAO.getFlightID();
-		int cId = flightDAO.checkFlightID(id);
+		int id = FlightService.getFlightID();
+		int cId = FlightService.checkFlightID(id);
 		System.out.print("Enter flight name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter flight number: ");

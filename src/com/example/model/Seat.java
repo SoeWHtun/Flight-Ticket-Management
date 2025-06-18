@@ -4,22 +4,24 @@ import com.example.dao.seat.SeatDAO;
 import com.example.dao.seat.SeatDaoImpl;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
+import static com.example.dao.seat.SeatDaoImpl.seatDao;
 
 public class Seat extends MasterData {
-	private int seatId;
+
 	private String seatNumber;
 	private Flight flight;
+
 	public Seat(){
 
 	}
 
 	public Seat(Flight flight, String seatNumber) {
-		super.setId(SeatDaoImpl.getSeatCount()+1);
+		super.setId(seatDao.getCount()+1);
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
 	public Seat(int seatId,Flight flight, String seatNumber) {
-		super.setId(getId());
+		super.setId(seatId);
 		this.flight = flight;
 		this.seatNumber = seatNumber;
 	}
@@ -32,13 +34,7 @@ public class Seat extends MasterData {
 		return new Seat(seatId,nflight,seatNumber);
 	}
 
-	public int getSeatId() {
-		return seatId;
-	}
 
-	public void setSeatId(int seatId) {
-		this.seatId = seatId;
-	}
 
 	public String getSeatNumber() {
 		return seatNumber;
@@ -57,14 +53,14 @@ public class Seat extends MasterData {
 	}
     public String[] toArray(){
 		return new String[]{
-			this.seatId+"",
+			this.getId()+"",
 			this.flight.getId()+"",
 				this.seatNumber
 		};
 	}
 	@Override
 	public String toString() {
-		String str = "Seat Id: " + getSeatId() + "\nSeat number: " + getSeatNumber() + "\nFlight Id: "
+		String str = "Seat Id: " + getId() + "\nSeat number: " + getSeatNumber() + "\nFlight Id: "
 				+ getFlight().getId() + "\nFlight name: " + getFlight().getFlightName() + "\nFlight number: "
 				+ getFlight().getFlightNumber() + "\n";
 		return str;

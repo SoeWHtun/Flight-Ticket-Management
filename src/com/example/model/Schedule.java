@@ -10,7 +10,7 @@ import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
 
 public class Schedule extends MasterData {
-    private int scheduleId;
+
     private String title;
     private Flight flight;
     private LocalDateTime depatureDate;
@@ -20,7 +20,7 @@ public class Schedule extends MasterData {
 
     public Schedule(String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        super.setId(schduleDao.getCount()+1);
+        super.setId(schduleDao.getCount() + 1);
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;
@@ -31,7 +31,7 @@ public class Schedule extends MasterData {
 
     public Schedule(int scheduleId, String title, Flight flight, LocalDateTime depatureDate, LocalDateTime arrivalDate,
                     String depatureCity, String arrivalCity) {
-        super.setId(getId());
+        super.setId(scheduleId);
         this.title = title;
         this.flight = flight;
         this.depatureDate = depatureDate;
@@ -44,7 +44,7 @@ public class Schedule extends MasterData {
 
     }
 
-    public static Schedule toObj(String[] scheduleRow){
+    public static Schedule toObj(String[] scheduleRow) {
         try {
             int scheduleId = Integer.parseInt(scheduleRow[0]);
             String title = scheduleRow[1];
@@ -65,20 +65,12 @@ public class Schedule extends MasterData {
             LocalDateTime deptDate = LocalDateTime.of(deptYear, deptMonth, deptDay, deptHour, deptMinute);
             LocalDateTime arrDate = LocalDateTime.of(arrYear, arrMonth, arrDay, arrHour, arrMinute);
             return new Schedule(scheduleId, title, nFlight, deptDate, arrDate, deptCity, arrCity);
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             System.out.println(Arrays.toString(scheduleRow));
         }
         return null;
     }
 
-
-    public int getScheduleId() {
-        return scheduleId;
-    }
-
-    public void setScheduleId(int scheduleId) {
-        this.scheduleId = scheduleId;
-    }
 
     public String getTitle() {
         return title;
@@ -129,12 +121,12 @@ public class Schedule extends MasterData {
     }
 
     public String[] toArray() {
-        return new String[]{this.scheduleId + "", this.title + "", this.flight.getId() + "", this.depatureDate.getDayOfMonth() + "", this.depatureDate.getMonthValue() + "", this.depatureDate.getYear() + "",this.depatureDate.getHour() + "",this.depatureDate.getMinute() + "", this.arrivalDate.getDayOfMonth() + "", this.arrivalDate.getMonthValue() + "", this.arrivalDate.getYear() + "",this.arrivalDate.getHour() + "",this.arrivalDate.getMinute() + "", this.depatureCity, this.arrivalCity};
+        return new String[]{this.getId() + "", this.title + "", this.flight.getId() + "", this.depatureDate.getDayOfMonth() + "", this.depatureDate.getMonthValue() + "", this.depatureDate.getYear() + "", this.depatureDate.getHour() + "", this.depatureDate.getMinute() + "", this.arrivalDate.getDayOfMonth() + "", this.arrivalDate.getMonthValue() + "", this.arrivalDate.getYear() + "", this.arrivalDate.getHour() + "", this.arrivalDate.getMinute() + "", this.depatureCity, this.arrivalCity};
     }
 
     @Override
     public String toString() {
-        String str = "\nSchedule ID: " + getScheduleId() + "\nSchedule Title: " + getTitle() + "\nFlight ID: "
+        String str = "\nSchedule ID: " + getId() + "\nSchedule Title: " + getTitle() + "\nFlight ID: "
                 + getFlight().getId() + "\nFlight Name: " + getFlight().getFlightName() + "\nFlight Number: "
                 + getFlight().getFlightNumber() + "\nDepature Date: " + getDepatureDate() + "\nArrival Date: "
                 + getArrivalDate() + "\nDepature City: " + getDepatureCity() + "\nArrival City: " + getArrivalCity()

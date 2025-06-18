@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.example.dao.seat.SeatDaoImpl;
+import com.example.service.FlightService;
+import com.example.service.SeatService;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class SeatController {
-	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
 
 	public void call() throws NumberFormatException, IOException {
 		int choice;
@@ -35,14 +36,14 @@ public class SeatController {
 	}
 
 	private void viewByFlight() throws IOException {
-		flightDAO.displayFlight();
-		int id = flightDAO.getFlightID();
-		int cId = flightDAO.checkFlightID(id);
-		SeatDaoImpl.displayByFlightId(cId);
+		FlightService.displayFlight();
+		int id = FlightService.getFlightID();
+		int cId = FlightService.checkFlightID(id);
+		SeatService.displayByFlightId(cId);
 	}
 
 	private void viewAll() {
-		SeatDaoImpl.displayAllSeat();
+		SeatService.displayAllSeat();
 	}
 
 }

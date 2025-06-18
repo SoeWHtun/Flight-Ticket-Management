@@ -58,7 +58,7 @@ public class Customer extends MasterData{
 	}
 
 	public String[] toArray(){
-		return new String[]{ getId()+"",this.name, this.phone, this.email};
+		return new String[]{ this.getId()+"",this.name, this.phone, this.email};
 	}
 	
 	@Override

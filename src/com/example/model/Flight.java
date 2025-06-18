@@ -13,7 +13,7 @@ public class Flight extends MasterData{
 		this.flightNumber = flightNumber;
 	}
 	public Flight(int flightId,String flightName, String flightNumber) {
-		super.setId(getId());
+		super.setId(flightId);
 		this.flightName = flightName;
 		this.flightNumber = flightNumber;
 	}

@@ -43,26 +43,26 @@ public class CustomerController {
 	}
 
 	private void delete() throws IOException {
-		int customerId = customerDao.getCustomerID();
-		int cCustomerId = customerDao.checkCustomerID(customerId);
+		int customerId = CustomerService.getCustomerID();
+		int cCustomerId = CustomerService.checkCustomerID(customerId);
 		customerDao.delete(cCustomerId);
-		customerDao.displayCustomer();
+		CustomerService.displayCustomer();
 	}
 
 	private void viewAll() {
-		customerDao.displayCustomer();
+		CustomerService.displayCustomer();
 	}
 
 	private void findById() throws IOException {
-		int customerId = customerDao.getCustomerID();
-		int cCustomerId = customerDao.checkCustomerID(customerId);
+		int customerId = CustomerService.getCustomerID();
+		int cCustomerId = CustomerService.checkCustomerID(customerId);
 		Customer foundCustomer = customerDao.findById(cCustomerId);
 		System.out.println(foundCustomer);
 	}
 
 	private void edit() throws IOException {
-		int customerId = customerDao.getCustomerID();
-		int cCustomerId = customerDao.checkCustomerID(customerId);
+		int customerId = CustomerService.getCustomerID();
+		int cCustomerId = CustomerService.checkCustomerID(customerId);
 		System.out.print("Enter customer name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter customer phone: ");

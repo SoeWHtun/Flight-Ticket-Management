@@ -1,11 +1,11 @@
 package com.example.model;
 
-import com.example.dao.seat.SeatDaoImpl;
 
 import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 import static com.example.dao.booking.BookingDaoImpl.bookingDao;
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.schedule.SchduleDaoImpl.schduleDao;
+import static com.example.dao.seat.SeatDaoImpl.seatDao;
 
 public class Booking extends MasterData{
     private Customer customer;
@@ -13,7 +13,8 @@ public class Booking extends MasterData{
     private Schedule schedule;
     private Seat seat;
     private Boolean isAvailable;
-    static SeatDaoImpl seatDao = new SeatDaoImpl();
+
+
     public Booking(){
 
     }
@@ -92,12 +93,12 @@ public class Booking extends MasterData{
     }
 
     public String[] toArray() {
-        return new String[]{this.customer.getId() + "", this.flight.getId() + "", this.schedule.getScheduleId() + "", this.seat.getSeatId() + ""};
+        return new String[]{this.getId()+""+this.customer.getId() + "", this.flight.getId() + "", this.schedule.getId() + "", this.seat.getId() + ""};
     }
 
     @Override
     public String toString() {
-        String str = "\n[ "+this.getId() +"\n"+ getCustomer() + "\n" + getSchedule() + "\n"
+        String str = "\n[ Booking Id:"+this.getId() +"]\n"+ getCustomer() + "\n" + getSchedule() + "\n"
                 + getSeat();
         return str;
     }
