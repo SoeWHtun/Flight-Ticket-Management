@@ -92,8 +92,9 @@ public class Booking extends MasterData{
         this.isAvailable = isAvailable;
     }
 
+    @Override
     public String[] toArray() {
-        return new String[]{this.getId()+""+this.customer.getId() + "", this.flight.getId() + "", this.schedule.getId() + "", this.seat.getId() + ""};
+        return new String[]{this.getId()+"", this.customer.getId() + "", this.flight.getId() + "", this.schedule.getId() + "", this.seat.getId() + ""};
     }
 
     @Override
