@@ -1,14 +1,10 @@
 package com.example.model;
-
-import com.example.dao.seat.SeatDAO;
-import com.example.dao.seat.SeatDaoImpl;
-
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.seat.SeatDaoImpl.seatDao;
 
 public class Seat extends MasterData {
-
 	private String seatNumber;
+
 	private Flight flight;
 
 	public Seat(){
@@ -33,7 +29,6 @@ public class Seat extends MasterData {
 		Flight nflight = flightDAO.findById(flightId);
 		return new Seat(seatId,nflight,seatNumber);
 	}
-
 
 
 	public String getSeatNumber() {
