@@ -1,11 +1,9 @@
 package com.example.dao.seat;
 
-
 import com.example.model.Seat;
 import com.example.util.FileUtil;
 
-
-public class SeatDaoImpl implements SeatDAO {
+public class SeatDaoImpl extends SeatDAO {
 
 	public static SeatDaoImpl seatDao = new SeatDaoImpl();
 

@@ -1,12 +1,11 @@
 package com.example.dao.schedule;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import com.example.model.Schedule;
 import com.example.util.FileUtil;
 
-public class SchduleDaoImpl implements ScheduleDAO {
+public class SchduleDaoImpl extends ScheduleDAO {
     public static SchduleDaoImpl schduleDao = new SchduleDaoImpl();
     static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -16,12 +15,6 @@ public class SchduleDaoImpl implements ScheduleDAO {
                 "depatureMinute", "arrivalDay", "arrivalMonth", "arrivalYear", "arrivalHour", "arrivalMinute", "depatureCity", "arrivalCity"};
         FileUtil.csvCreater(FILE_NAME, header);
     }
-
-
-
-
-
-
 
     @Override
     public Schedule toObj(String[] row) {

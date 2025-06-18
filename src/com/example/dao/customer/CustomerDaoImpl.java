@@ -1,13 +1,9 @@
 package com.example.dao.customer;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import com.example.model.Customer;
 import com.example.util.FileUtil;
 
 
-public class CustomerDaoImpl implements CustomerDao {
+public class CustomerDaoImpl extends CustomerDao {
     public static CustomerDaoImpl customerDao = new CustomerDaoImpl();
 
 

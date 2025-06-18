@@ -7,11 +7,11 @@ import com.example.util.FileUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface AbstractDao<T extends MasterData> {
-    public T toObj(String[] row);
-    public String getFileName();
+public abstract class AbstractDao<T extends MasterData> {
+    public abstract T toObj(String[] row);
+    public abstract String getFileName();
 
-    default int getCSVId(){
+    public  int getCSVId(){
         List<T> objectList = getAll();
         if(!objectList.isEmpty()){
             objectList.sort((c1, c2)-> Integer.compare(c1.getId(), c2.getId()));
@@ -21,12 +21,12 @@ public interface AbstractDao<T extends MasterData> {
         }
     }
 
-    default void create(T obj) {
+    public void create(T obj) {
         obj.setId(getCSVId());
         FileUtil.csvWriter(getFileName(), obj.toArray());
     }
 
-    default T findById(int id) {
+    public T findById(int id) {
         for (T obj : getAll()) {
             if (obj.getId() == id) {
                 return obj;
@@ -35,23 +35,23 @@ public interface AbstractDao<T extends MasterData> {
         throw new ResourceNotFountException("Not Fount Id at "+getFileName()+" for Id: "+ id);
     }
 
-    default void update(int id, T updateObj) {
+    public void update(int id, T updateObj) {
         findById(id);
         FileUtil.updateRecordById(getFileName(),id+"",updateObj.toArray());
     }
 
-    default void delete(int id) {
+    public void delete(int id) {
         findById(id);
         FileUtil.deleteRecordById(getFileName(),id+"");
     }
 
-    default List<T> getAll() {
+    public List<T> getAll() {
         List<String[]> objectDatas = FileUtil.csvReader(getFileName());
         List<T> objList = toObjects(objectDatas);
         return objList;
     }
 
-    default int getCount() {
+    public int getCount() {
         int count = 0;
         for (T object : getAll()) {
             count++;
@@ -59,7 +59,7 @@ public interface AbstractDao<T extends MasterData> {
         return count;
     }
 
-    default List<T> toObjects(List<String[]> objectData) {
+    public List<T> toObjects(List<String[]> objectData) {
         List<T> objectList = new ArrayList<>();
         for (String[] dataRow : objectData) {
             T masterObj = toObj(dataRow);

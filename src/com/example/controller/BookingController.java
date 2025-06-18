@@ -23,7 +23,7 @@ import static com.example.dao.seat.SeatDaoImpl.seatDao;
 public class BookingController {
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+	private static BookingService bookingService = new BookingService();
 	public void call() throws NumberFormatException, IOException {
 		int choice;
 		do {
@@ -56,8 +56,7 @@ public class BookingController {
 		int customerId = CustomerService.getCustomerID();
 		int cCustomerId = CustomerService.checkCustomerID(customerId);
 		BookingService.displayBookingbyCustomer(cCustomerId);
-		int bookingId = BookingService.getBookingID();
-		int cBookingId = BookingService.checkBookingID(bookingId);
+		int bookingId = bookingService.findById();
 		ScheduleService.displaySchedule();
 		int id = ScheduleService.getScheduleID();
 		int cId = ScheduleService.checkScheduleID(id);
@@ -74,9 +73,9 @@ public class BookingController {
 		Schedule schedule = schduleDao.findById(cId);
 		Seat seat = seatDao.findById(cSeatId);
 		Booking updateBooking = new Booking(customer, schedule.getFlight(), schedule, seat);
-		BookingService.updateBooking(cBookingId, updateBooking);
+		bookingService.update(bookingId, updateBooking);
 		System.out.println("\nBooking details updated\n");
-		Booking foundBooking = bookingDao.findById(cBookingId);
+		Booking foundBooking = bookingDao.findById(bookingId);
 		System.out.println(foundBooking);
 	}
 
@@ -92,10 +91,9 @@ public class BookingController {
 		int customerId = CustomerService.getCustomerID();
 		int cCustomerId = CustomerService.checkCustomerID(customerId);
 		BookingService.displayBookingbyCustomer(cCustomerId);
-		int id = BookingService.getBookingID();
-		int cId = BookingService.checkBookingID(id);
-		bookingDao.delete(cId);
-		System.out.println("\nBooking ID: " + cId + " (Cancelled)");
+		int bookingId = bookingService.findById();
+		bookingDao.delete(bookingId);
+		System.out.println("\nBooking ID: " + bookingId + " (Cancelled)");
 		BookingService.displayBookingbyCustomer(cCustomerId);
 	}
 
@@ -126,7 +124,7 @@ public class BookingController {
 		Customer customer = customerDao.findById(cCustomerId);
 		Seat seat = seatDao.findById(cSeatId);
 		Booking newBooking = new Booking(customer, foundSchedule.getFlight(), foundSchedule, seat);
-		BookingService.createBooking(newBooking);
+		bookingService.create(newBooking);
 		System.out.println("\nNew Booking Created\n");
 		System.out.println(newBooking);
 
@@ -152,7 +150,7 @@ public class BookingController {
 		Schedule schedule = schduleDao.findById(cId);
 		Seat seat = seatDao.findById(cSeatId);
 		Booking newBooking = new Booking(customer, schedule.getFlight(), schedule, seat);
-		BookingService.createBooking(newBooking);
+		bookingService.create(newBooking);
 		System.out.println("\nNew Booking Created\n");
 		System.out.println(newBooking);
 
