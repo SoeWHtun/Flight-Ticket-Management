@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
-
 import com.example.model.Flight;
-
 import com.example.model.Seat;
 import com.example.service.FlightService;
 import com.example.service.SeatService;
@@ -16,94 +13,90 @@ import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.seat.SeatDaoImpl.seatDao;
 
 public class FlightController {
-	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+    static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+    static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+    private static FlightService flightService = new FlightService();
 
+    public void call() throws NumberFormatException, IOException {
+        int choice;
+        do {
 
-	public void call() throws NumberFormatException, IOException {
-		int choice;
-		do {
+            System.out.println("\n**Flight Management**");
 
-			System.out.println("\n**Flight Management**");
+            System.out.println("1. Flight Registration ");
+            System.out.println("2. Update flight deatail ");
+            System.out.println("3. Find flight by Id");
+            System.out.println("4. View all flight");
+            System.out.println("5. View all flight with available seats");
+            System.out.println("6. Delete flight");
+            System.out.println("7. Exit");
+            choice = FlightTicketManagement.getChoice();
 
-			System.out.println("1. Flight Registration ");
-			System.out.println("2. Update flight deatail ");
-			System.out.println("3. Find flight by Id");
-			System.out.println("4. View all flight");
-			System.out.println("5. View all flight with available seats");
-			System.out.println("6. Delete flight");
-			System.out.println("7. Exit");
-			choice = FlightTicketManagement.getChoice();
+            switch (choice) {
+                case 1 -> createFlight();
+                case 2 -> editFlight();
+                case 3 -> findById();
+                case 4 -> viewAllFlight();
+                case 5 -> viewAvailable();
+                case 6 -> deleteFlight();
+                case 7 -> System.out.println("Exited");
+                default -> System.out.println("Invalid choice! Please select a valid option.");
+            }
 
-			switch (choice) {
-			case 1 -> createFlight();
-			case 2 -> editFlight();
-			case 3 -> findById();
-			case 4 -> viewAllFlight();
-			case 5 -> viewAvailable();
-			case 6 -> deleteFlight();
-			case 7 -> System.out.println("Exited");
-			default -> System.out.println("Invalid choice! Please select a valid option.");
-			}
+        } while (choice != 7);
+        System.out.println();
+    }
 
-		} while (choice != 7);
-		System.out.println();
-	}
+    private void viewAvailable() {
+        FlightService.displayFlightwithSeat();
+    }
 
-	private void viewAvailable() {
-		FlightService.displayFlightwithSeat();
-	}
+    private void deleteFlight() throws IOException {
 
-	private void deleteFlight() throws IOException {
-		int id = FlightService.getFlightID();
-		int cId = FlightService.checkFlightID(id);
-		flightDAO.delete(cId);
-		for(Seat seat : seatDao.getAll()){
-			if (seat.getFlight().getId() == id) {
-				seatDao.delete(seat.getId());
-			}
-		}
-		FlightService.displayFlight();
-	}
+        int cId = flightService.findById();
+        flightDAO.delete(cId);
+        for (Seat seat : seatDao.getAll()) {
+            if (seat.getFlight().getId() == cId) {
+                seatDao.delete(seat.getId());
+            }
+        }
+        flightService.displayAll();
+    }
 
-	private void viewAllFlight() {
-		FlightService.displayFlight();
+    private void viewAllFlight() {
+        flightService.displayAll();
 
-	}
+    }
 
-	private void findById() throws IOException {
+    private void findById() throws IOException {
+        int cId = flightService.findById();
+        Flight foundFlight = flightDAO.findById(cId);
+        System.out.println(foundFlight);
+    }
 
-		int id = FlightService.getFlightID();
-		int cId = FlightService.checkFlightID(id);
-		Flight foundFlight = flightDAO.findById(cId);
-		System.out.println(foundFlight);
-	}
+    private void editFlight() throws IOException {
+        int cId = flightService.findById();
+        System.out.print("Enter flight name: ");
+        String name = bufferedReader.readLine();
+        System.out.print("Enter flight number: ");
+        String number = bufferedReader.readLine();
+        Flight updateFlight = new Flight(name, number);
+        flightService.update(cId, updateFlight);
+        System.out.println("Flight Details Updated\n");
+        Flight foundFlight = flightDAO.findById(cId);
+        System.out.println(foundFlight);
 
-	private void editFlight() throws IOException {
+    }
 
-		int id = FlightService.getFlightID();
-		int cId = FlightService.checkFlightID(id);
-		System.out.print("Enter flight name: ");
-		String name = bufferedReader.readLine();
-		System.out.print("Enter flight number: ");
-		String number = bufferedReader.readLine();
-		Flight updateFlight = new Flight(name, number);
-		FlightService.updateFlight(cId, updateFlight);
-		System.out.println("Flight Details Updated\n");
-		Flight foundFlight = flightDAO.findById(cId);
-		System.out.println(foundFlight);
-
-	}
-
-	private void createFlight() throws IOException {
-		System.out.print("Enter flight name: ");
-		String name = bufferedReader.readLine();
-		System.out.print("Enter flight number: ");
-		String number = bufferedReader.readLine();
-		Flight newFlight = new Flight(name, number);
-		FlightService.createFlight(newFlight);
-		SeatService.createSeat(newFlight);
-		System.out.println("New Flight Created\n");
-		System.out.println(newFlight);
-	}
+    private void createFlight() throws IOException {
+        System.out.print("Enter flight name: ");
+        String name = bufferedReader.readLine();
+        System.out.print("Enter flight number: ");
+        String number = bufferedReader.readLine();
+        Flight newFlight = new Flight(name, number);
+        FlightService.createFlight(newFlight);
+        SeatService.createSeat(newFlight);
+        System.out.println("New Flight Created\n");
+        System.out.println(newFlight);
+    }
 }

@@ -13,7 +13,7 @@ public class CustomerController {
 
 	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
 	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
+    private static CustomerService customerService = new CustomerService();
 	public void call() throws NumberFormatException, IOException {
 		int choice;
 		do {
@@ -43,26 +43,23 @@ public class CustomerController {
 	}
 
 	private void delete() throws IOException {
-		int customerId = CustomerService.getCustomerID();
-		int cCustomerId = CustomerService.checkCustomerID(customerId);
+		int cCustomerId = customerService.findById();
 		customerDao.delete(cCustomerId);
-		CustomerService.displayCustomer();
+		customerService.displayAll();
 	}
 
 	private void viewAll() {
-		CustomerService.displayCustomer();
+		customerService.displayAll();
 	}
 
 	private void findById() throws IOException {
-		int customerId = CustomerService.getCustomerID();
-		int cCustomerId = CustomerService.checkCustomerID(customerId);
+		int cCustomerId = customerService.findById();
 		Customer foundCustomer = customerDao.findById(cCustomerId);
 		System.out.println(foundCustomer);
 	}
 
 	private void edit() throws IOException {
-		int customerId = CustomerService.getCustomerID();
-		int cCustomerId = CustomerService.checkCustomerID(customerId);
+		int cCustomerId =customerService.findById();
 		System.out.print("Enter customer name: ");
 		String name = bufferedReader.readLine();
 		System.out.print("Enter customer phone: ");
@@ -70,7 +67,7 @@ public class CustomerController {
 		System.out.print("Enter customer email: ");
 		String email = bufferedReader.readLine();
 		Customer updateCustomer = new Customer(name, phone, email);
-		CustomerService.update(cCustomerId, updateCustomer);
+		customerService.update(cCustomerId, updateCustomer);
 		System.out.println("\nCustomer Details Updated\n");
 		Customer foundCustomer = customerDao.findById(cCustomerId);
 		System.out.println(foundCustomer);
@@ -84,7 +81,7 @@ public class CustomerController {
 		System.out.print("Enter customer email: ");
 		String email = bufferedReader.readLine();
 		Customer newCustomer = new Customer(name, phone, email);
-		CustomerService.create(newCustomer);
+		customerService.create(newCustomer);
 		System.out.println("New Customer Created\n");
 		System.out.println(newCustomer);
 	}

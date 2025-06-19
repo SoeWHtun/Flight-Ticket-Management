@@ -2,10 +2,13 @@ package com.example.service;
 
 import com.example.dao.AbstractDao;
 import com.example.model.Booking;
+import com.example.model.Customer;
 import com.example.model.MasterData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 
 public abstract  class CommonService<T extends MasterData> {
 
@@ -52,5 +55,10 @@ public abstract  class CommonService<T extends MasterData> {
             return findById();
         }
         return checkedId;
+    }
+    public void displayAll() {
+        for (T object : abstractDao.getAll()) {
+            System.out.println(object);
+        }
     }
 }

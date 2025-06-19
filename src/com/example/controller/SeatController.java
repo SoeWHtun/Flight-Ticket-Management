@@ -1,17 +1,14 @@
 package com.example.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 
-import com.example.dao.seat.SeatDaoImpl;
+import java.io.IOException;
 import com.example.service.FlightService;
 import com.example.service.SeatService;
 
-import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 
 public class SeatController {
-
+    private  static  FlightService flightService = new FlightService();
+	private static  SeatService seatService = new SeatService();
 
 	public void call() throws NumberFormatException, IOException {
 		int choice;
@@ -36,14 +33,13 @@ public class SeatController {
 	}
 
 	private void viewByFlight() throws IOException {
-		FlightService.displayFlight();
-		int id = FlightService.getFlightID();
-		int cId = FlightService.checkFlightID(id);
+		flightService.displayAll();
+		int cId = flightService.findById();
 		SeatService.displayByFlightId(cId);
 	}
 
 	private void viewAll() {
-		SeatService.displayAllSeat();
+		seatService.displayAll();
 	}
 
 }
