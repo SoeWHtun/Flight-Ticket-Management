@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 
 import com.example.model.Customer;
 import com.example.service.CustomerService;
+import com.example.view.customer.CustomerRegistrationForm;
+
+import javax.swing.*;
 
 import static com.example.dao.customer.CustomerDaoImpl.customerDao;
 
@@ -74,16 +77,23 @@ public class CustomerController {
 	}
 
 	private void create() throws IOException {
-		System.out.print("Enter customer name: ");
-		String name = bufferedReader.readLine();
-		System.out.print("Enter customer phone: ");
-		String phone = bufferedReader.readLine();
-		System.out.print("Enter customer email: ");
-		String email = bufferedReader.readLine();
-		Customer newCustomer = new Customer(name, phone, email);
-		customerService.create(newCustomer);
-		System.out.println("New Customer Created\n");
-		System.out.println(newCustomer);
+		// Run the GUI creation on the Event Dispatch Thread (EDT)
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				new CustomerRegistrationForm().setVisible(true);
+			}
+		});
+//		System.out.print("Enter customer name: ");
+//		String name = bufferedReader.readLine();
+//		System.out.print("Enter customer phone: ");
+//		String phone = bufferedReader.readLine();
+//		System.out.print("Enter customer email: ");
+//		String email = bufferedReader.readLine();
+//		Customer newCustomer = new Customer(name, phone, email);
+//		customerService.create(newCustomer);
+//		System.out.println("New Customer Created\n");
+//		System.out.println(newCustomer);
 	}
 
 }

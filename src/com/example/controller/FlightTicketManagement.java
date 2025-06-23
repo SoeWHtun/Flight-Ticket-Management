@@ -48,11 +48,8 @@ public class FlightTicketManagement {
 		try {
 			System.out.print("Enter your choice: ");
 			choice = Integer.parseInt(bufferedReader.readLine());
-		} catch (IOException ex) {
+		} catch (IOException | NumberFormatException ex) {
 			System.out.println("Please enter valid value");
-			return getChoice();
-		} catch (NumberFormatException ex) {
-			System.out.println("Please enter valid choice");
 			return getChoice();
 		}
 		return choice;

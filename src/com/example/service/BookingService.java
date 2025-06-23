@@ -3,14 +3,10 @@ package com.example.service;
 import com.example.dao.booking.BookingDao;
 import com.example.dao.booking.BookingDaoImpl;
 import com.example.model.Booking;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 
 import static com.example.dao.booking.BookingDaoImpl.bookingDao;
 
 public class BookingService extends CommonService<Booking>{
-	static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
-	static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 	private static final BookingDao bookingDaoImpl = new BookingDaoImpl();
 
 	public BookingService() {

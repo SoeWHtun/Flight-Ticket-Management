@@ -3,6 +3,9 @@ package com.example.dao.seat;
 import com.example.model.Seat;
 import com.example.util.FileUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SeatDaoImpl extends SeatDAO {
 
 	public static SeatDaoImpl seatDao = new SeatDaoImpl();
@@ -23,6 +26,18 @@ public class SeatDaoImpl extends SeatDAO {
 	}
 
 
+	public Integer getSeatsCountByFlightId(int id){
+		return getSeatsByFlightId(id).size();
+	}
 
 
+    public List<Seat> getSeatsByFlightId(int id) {
+		List<Seat> seatList = new ArrayList<>();
+		for(Seat seat : this.getAll()){
+			if(seat.getFlight().getId() == id){
+				seatList.add(seat);
+			}
+		}
+		return seatList;
+    }
 }

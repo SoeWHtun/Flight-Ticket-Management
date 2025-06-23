@@ -1,19 +1,16 @@
 package com.example.service;
 
 import com.example.dao.AbstractDao;
-import com.example.model.Booking;
-import com.example.model.Customer;
 import com.example.model.MasterData;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.example.dao.customer.CustomerDaoImpl.customerDao;
-
 public abstract  class CommonService<T extends MasterData> {
 
     public static InputStreamReader inputStreamReader = new InputStreamReader(System.in);
     public static BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
     private final AbstractDao<T> abstractDao;
     public abstract void prepareUpdateFields(T updateObject, T object);
     public String serviceName;
