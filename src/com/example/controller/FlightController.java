@@ -8,6 +8,9 @@ import com.example.model.Flight;
 import com.example.model.Seat;
 import com.example.service.FlightService;
 import com.example.service.SeatService;
+import com.example.view.flight.FlightRegistrationForm;
+
+import javax.swing.*;
 
 import static com.example.dao.flight.FlightDAOImpl.flightDAO;
 import static com.example.dao.seat.SeatDaoImpl.seatDao;
@@ -89,14 +92,20 @@ public class FlightController {
     }
 
     private void createFlight() throws IOException {
-        System.out.print("Enter flight name: ");
-        String name = bufferedReader.readLine();
-        System.out.print("Enter flight number: ");
-        String number = bufferedReader.readLine();
-        Flight newFlight = new Flight(name, number);
-        FlightService.createFlight(newFlight);
-        SeatService.createSeat(newFlight);
-        System.out.println("New Flight Created\n");
-        System.out.println(newFlight);
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new FlightRegistrationForm().setVisible(true);
+            }
+        });
+//        System.out.print("Enter flight name: ");
+//        String name = bufferedReader.readLine();
+//        System.out.print("Enter flight number: ");
+//        String number = bufferedReader.readLine();
+//        Flight newFlight = new Flight(name, number);
+//        FlightService.createFlight(newFlight);
+//        SeatService.createSeat(newFlight);
+//        System.out.println("New Flight Created\n");
+//        System.out.println(newFlight);
     }
 }

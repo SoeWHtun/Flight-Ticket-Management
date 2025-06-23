@@ -1,12 +1,14 @@
 package com.example.view.customer;
 
+import com.example.service.CustomerService;
+import com.example.model.Customer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class CustomerRegistrationForm extends JFrame {
-
+    private static CustomerService customerService = new CustomerService();
     // Declare Swing components
     private JLabel nameLabel;
     private JTextField nameField;
@@ -97,9 +99,10 @@ public class CustomerRegistrationForm extends JFrame {
                 String email = emailField.getText();
                 String phone = phoneField.getText();
 
-                System.out.println("Name : "+ name);
-                System.out.println("Email : "+ email);
-                System.out.println("Phone : "+ phone);
+                Customer newCustomer = new Customer(name, phone, email);
+		        customerService.create(newCustomer);
+		        System.out.println("New Customer Created\n");
+		        System.out.println(newCustomer);
             }
         };
 
